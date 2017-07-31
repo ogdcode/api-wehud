@@ -1,0 +1,10 @@
+{
+    "port": 3000,
+    "encKey": "d6b58cde678596847b183a589879c11c",
+    "db": {
+        "name": "wehud-db",
+        "user": "wehud_ogoncalves",
+        "pass": "Hn4kL0!",
+        "path": "mongodb://<user>:<pass>@ds111103.mlab.com:11103/<name>"
+    }
+}

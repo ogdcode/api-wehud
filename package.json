@@ -4,7 +4,7 @@
   "description": "This is the API of the WeHud project.",
   "main": "index.js",
   "scripts": {
-    "test": "node server"
+    "test": "node app"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,13 @@
   "bugs": {
     "url": "https://github.com/ogdesgi/api-wehud/issues"
   },
-  "homepage": "https://github.com/ogdesgi/api-wehud#readme"
+  "homepage": "https://github.com/ogdesgi/api-wehud#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "crypto-js": "^3.1.9-1",
+    "express": "^4.15.3",
+    "mongoose": "^4.10.2",
+    "mongoose-timestamp": "^0.6.0",
+    "q": "^1.5.0"
+  }
 }
