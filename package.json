@@ -1,0 +1,24 @@
+{
+  "name": "api-wehud",
+  "version": "1.0.0",
+  "description": "This is the API of the WeHud project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ogdesgi/api-wehud.git"
+  },
+  "keywords": [
+    "wehud",
+    "api",
+    "nodejs"
+  ],
+  "author": "WeHud Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ogdesgi/api-wehud/issues"
+  },
+  "homepage": "https://github.com/ogdesgi/api-wehud#readme"
+}
