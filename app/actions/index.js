@@ -1,6 +1,7 @@
 var actions = function(app) {
     app.actions = {
-        users: require('./users')(app)
+        users: require('./users')(app),
+        auth: require('./auth')(app)
     };
 };
 

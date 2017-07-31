@@ -1,11 +1,6 @@
 var initialize = function(app) {
     app.use('/users', require('./users')(app));
-    
-    /*
-    app.use('/test', function(req, res) {
-        res.json({ msg: 'Salut' });
-    });
-    */
+    app.use('/auth', require('./auth')(app));
 };
 
 module.exports = initialize;

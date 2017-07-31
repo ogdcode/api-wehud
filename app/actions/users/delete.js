@@ -1,15 +1,17 @@
 'use strict';
 
-var list = function(app) {
+let del = function(app) {
     var errs = app.errors;
     var User = app.models.user;
     
     let task = function(req, res) {
-        let query = User.find();
+        let currentUser = req.session.user;
+        
+        let query = User.findByIdAndRemove(currentUser._id);
         let promise = query.exec();
-
-        promise.then(function(users) {
-            res.status(200).json(users);
+        
+        promise.then(function() {
+            res.status(204).json({});
         }).catch(function() {
             res.status(500).json({ error: errs.ERR_SERVER });
         });
@@ -18,4 +20,4 @@ var list = function(app) {
     return task;
 };
 
-module.exports = list;
+module.exports = del;

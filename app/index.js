@@ -7,7 +7,7 @@ var app = express();
     require('./settings')(app);
     require('./modules')(app);
     require('./models')(app);
-    //require('./middlewares')(app);
+    require('./middlewares')(app);
     require('./actions')(app);
     require('./routes')(app);
 }());

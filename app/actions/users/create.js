@@ -5,7 +5,6 @@ var cryptojs = require('crypto-js');
 var create = function(app) {
     var config = app.config;
     var errs = app.errors;
-    var modules = app.modules;
     var User = app.models.user;
     
     let task = function(req, res) {
@@ -16,7 +15,7 @@ var create = function(app) {
         let user = new User(body);
         let promise = user.save();
         promise.then(function(instance) {
-            res.status(201).json({ id:  instance._id });
+            res.status(201).json({ id: instance._id });
         }).catch(function() {
             res.status(500).json({ error: errs.ERR_SERVER });
         });
