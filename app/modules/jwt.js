@@ -2,22 +2,12 @@
 
 var jwt = require('jsonwebtoken');
 
-function generateToken(app, obj) {
-    let options = {
-        algorithm: app.config.jwt.algorithm,
-        expiresIn: app.config.jwt.expiresIn
-    };
-    
-    return jwt.sign(obj, app.config.token.secret, options);
+function generateToken(app, obj) {      
+    return jwt.sign({ _id: obj }, app.config.jwt.secret);
 }
 
 function verifyToken(app, token) {
-    let options = {
-        algorithm: app.config.jwt.algorithm,
-        expiresIn: app.config.jwt.expiresIn
-    };
-    
-    return jwt.verify(token, app.config.jwt.secret, options);
+    return jwt.verify(token, app.config.jwt.secret);
 }
 
 module.exports.generateToken = generateToken;

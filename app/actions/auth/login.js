@@ -1,10 +1,9 @@
 'use strict';
 
-var login = function(app) {
+let login = function(app) {
     var config = app.config;
     var errs = app.errors;
     var User = app.models.user;
-    var Token = app.models.token;
     
     let task = function(req, res) {
         var body = req.body;
@@ -15,6 +14,7 @@ var login = function(app) {
         } else {
             options.username = body.usernameOrEmail;
         }
+        options.password = app.modules.encryption.encrypt(app, body.password);
         
         var query = User.findOne(options);
         var promise = query.exec();
@@ -22,18 +22,17 @@ var login = function(app) {
         promise.then(function(foundUser) {
             if (!foundUser) {
                 res.status(404).json({ error: errs.ERR_NOTFOUND });
-            } else {
-                let userPassword = app.modules.encryption.decrypt(app, foundUser.password);
-                
-                if (userPassword !== body.password) {
+            } else {                
+                if (foundUser.password !== options.password) {
                     res.status(403).json({ error: errs.ERR_INVALIDCREDS });
                 } else {
                     foundUser.connected = true;
                     foundUser.save();
                     
-                    let token = app.modules.jwt.generateToken(app, { _id: foundUser._id });
+                    let token = app.modules.jwt.generateToken(app, foundUser._id);
                     
                     res.status(200).json({ id: foundUser._id, token: token });
+                    
                 }
             }
         }).catch(function() {

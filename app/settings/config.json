@@ -8,8 +8,6 @@
         "path": "mongodb://<user>:<pass>@ds111103.mlab.com:11103/<name>"
     },
     "jwt": {
-        "secret": "f7c43dca678014747b183a899279d22d",
-        "algorithm": "HS256",
-        "expiresIn": 84600
+        "secret": "f7c43dca678014747b183a899279d22d"
     }
 }
