@@ -2,7 +2,9 @@
 
 var initialize = function(app) {
     app.modules = {
-        dbconnect: require('./dbconnect')(app)
+        dbconnect: require('./dbconnect')(app),
+        encryption: require('./encryption'),
+        jwt: require('./jwt')
     };
 };
 

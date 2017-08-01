@@ -1,16 +1,16 @@
 'use strict';
 
-var cryptojs = require('crypto-js');
-
 var create = function(app) {
     var config = app.config;
     var errs = app.errors;
     var User = app.models.user;
-    
+        
     let task = function(req, res) {
+        console.log('Entered task');
         let body = req.body;
 
-        body.password = cryptojs.AES.encrypt(body.password, config.encKey).toString();
+        body.password = app.modules.encryption.encrypt(app, body.password);
+        console.log(body.password);
         
         let user = new User(body);
         let promise = user.save();

@@ -14,7 +14,6 @@ var initialize = function(app) {
     
     app.models = {
         user: require('./User')(app),
-        token: require('./Token')(app)
     };
 };
 

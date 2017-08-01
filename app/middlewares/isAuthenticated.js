@@ -2,28 +2,25 @@
 
 var isAuthenticated = function(app) {
     var errs = app.errors;
-    var Token = app.models.token;
     var User = app.models.user;
     
     let task = function(req, res, next) {
-        var tokenVal = req.header('X-Access-Token');
-    
-        let findToken = Token.findOne({ value:  tokenVal });
-        let promise = findToken.exec();
-
-        promise.then(function(foundToken) {
-            var userId = foundToken.userId;
-
-            var findUser = User.findById(userId);
-            return findUser.exec();
-        }).then(function(foundUser) {
-            if (!foundUser) {
+        let token = req.header('X-Access-Token');
+        
+        let decoded = app.modules.jwt.verifyToken(app, token);
+        
+        let findUser = User.findById(decoded._id);
+        let promise = findUser.exec();
+        
+        promise.then(function(user) {
+            if (!user) {
                 res.status(404).json({ error: errs.ERR_NOTFOUND });
             } else {
-                req.session = req.session || {};
-                req.session.user = foundUser;
-                req.session.token = tokenVal;
-                                
+                req.session = {
+                    user: user,
+                    token: token
+                }
+                
                 next();
             }
         }).catch(function() {

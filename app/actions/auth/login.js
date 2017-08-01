@@ -1,8 +1,5 @@
 'use strict';
 
-var cryptojs = require('crypto-js');
-var jwt = require('jsonwebtoken');
-
 var login = function(app) {
     var config = app.config;
     var errs = app.errors;
@@ -26,34 +23,19 @@ var login = function(app) {
             if (!foundUser) {
                 res.status(404).json({ error: errs.ERR_NOTFOUND });
             } else {
-                var userPassword = cryptojs.AES.decrypt(foundUser.password, config.encKey).toString(cryptojs.enc.Utf8);
+                let userPassword = app.modules.encryption.decrypt(app, foundUser.password);
                 
                 if (userPassword !== body.password) {
                     res.status(403).json({ error: errs.ERR_INVALIDCREDS });
                 } else {
-                                        
                     foundUser.connected = true;
-                    
                     foundUser.save();
                     
-                    let jwtOptions = {
-                        algorithm: config.jwt.algorithm,
-                        expiresIn: config.jwt.expiresIn
-                    };
+                    let token = app.modules.jwt.generateToken(app, { _id: foundUser._id });
                     
-                    let tokenVal = jwt.sign({_id: foundUser._id}, config.jwt.secret, jwtOptions);
-                    
-                    let tokenObj = new Token({
-                        value: tokenVal,
-                        userId: foundUser._id,
-                        expiresIn: config.jwt.expiresIn
-                    });
-                                        
-                    return tokenObj.save();
+                    res.status(200).json({ id: foundUser._id, token: token });
                 }
             }
-        }).then(function(result) {
-            res.status(200).json({ id: result.userId, token: result.value });
         }).catch(function() {
             res.status(500).json({ error: errs.ERR_SERVER });
         });
