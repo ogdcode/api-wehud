@@ -11,7 +11,25 @@ const FRANCHISES = BASEURL + '/franchises'
 const MODES = BASEURL + '/game_modes'
 const GENRES = BASEURL + '/genres'
 
-const CRITERIA = 'name,storyline,status,developers,publishers,franchise,game,game_modes,genres,first_release_date,cover'
+const ESRB = {
+    '1': 'RP',
+    '2': 'EC',
+    '3': 'E',
+    '4': 'E10+',
+    '5': 'T',
+    '6': 'M',
+    '7': 'AO'
+}
+
+const PEGI = {
+    '1': '3+',
+    '2': '7+',
+    '3': '12+',
+    '4': '16+',
+    '5': '18+'
+}
+
+const CRITERIA = 'name,storyline,status,developers,publishers,franchise,game,game_modes,genres,first_release_date,cover,websites'
 
 const EXCEPTION = x => res.status(500).json({ error: errs.ERR_SERVER })
 
@@ -33,6 +51,9 @@ let create = function(app) {
             parameters: params,
             headers: { 'X-Mashape-Key': KEY }
         }
+        
+        console.log(ESRB['1'])
+        console.log(PEGI['4'])
         
         http.get(GAMES + '/', args, (data, body) => {
             data.forEach(entry => {
@@ -67,6 +88,15 @@ let create = function(app) {
                     else
                         newGame.cover = entry.cover.url
                 
+                if (entry.hasOwnProperty('esrb'))
+                    newGame.esrb = ESRB[entry.esrb.rating.toString()]
+                
+                if (entry.hasOwnProperty('pegi'))
+                    newGame.pegi = PEGI[entry.pegi.rating.toString()]
+                
+                if (entry.hasOwnProperty('websites'))
+                    newGame.websites = entry.websites.url
+                
                 if (entry.hasOwnProperty('game')) {
                     newGame.isDlcOrExpansion = true
                     hasGame = true
@@ -76,6 +106,11 @@ let create = function(app) {
                 
                 if (hasDevs) {
                     entry.developers.forEach(developer => {
+                        
+                        // The 'args' variable initialized up ahead uses
+                        // the 'let' keyword, which makes it a block scope
+                        // variable.
+                        // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let for more info.
                         
                         let args = {
                             parameters: { fields: 'name' },

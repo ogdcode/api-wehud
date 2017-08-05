@@ -34,18 +34,26 @@ let gameModel = function(app) {
             default: []
         },
         firstReleaseDate: {
-            type: Number,
-            
+            type: Number
         },
-        isDlcOrExpansion: {
-            type: Boolean,
-            default: false
+        esrb: {
+            type: String
+        },
+        pegi: {
+            type: String
         },
         cover: {
             type: String
         },
         status: {
             type: Number
+        },
+        isDlcOrExpansion: {
+            type: Boolean,
+            default: false
+        },
+        website: {
+            type: String
         }
     })
     
