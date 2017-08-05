@@ -14,6 +14,38 @@ let gameModel = function(app) {
         developers: {
             type: [String],
             default: []
+        },
+        publishers: {
+            type: [String],
+            default: []
+        },
+        franchise: {
+            type: String
+        },
+        mainGame: {
+            type: String
+        },
+        modes: {
+            type: [String],
+            default: []
+        },
+        genres: {
+            type: [String],
+            default: []
+        },
+        firstReleaseDate: {
+            type: Number,
+            
+        },
+        isDlcOrExpansion: {
+            type: Boolean,
+            default: false
+        },
+        cover: {
+            type: String
+        },
+        status: {
+            type: Number
         }
     })
     
