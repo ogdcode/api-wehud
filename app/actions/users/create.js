@@ -6,11 +6,9 @@ var create = function(app) {
     var User = app.models.user;
         
     let task = function(req, res) {
-        console.log('Entered task');
         let body = req.body;
 
         body.password = app.modules.encryption.encrypt(app, body.password);
-        console.log(body.password);
         
         let user = new User(body);
         let promise = user.save();

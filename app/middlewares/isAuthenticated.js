@@ -1,11 +1,17 @@
 'use strict';
 
-var isAuthenticated = function(app) {
+let isAuthenticated = function(app) {
     var errs = app.errors;
     var User = app.models.user;
     
     let task = function(req, res, next) {
-        let token = req.header('X-Access-Token');
+        let header = req.header('Authorization').split(' ');
+        
+        if (header[0] !== 'Bearer') {
+            res.status(403).json({ error: errs.ERR_UNAUTHORIZED });
+        }
+        
+        let token = header[1];
         
         let decoded = app.modules.jwt.verifyToken(app, token);
         

@@ -1,20 +1,21 @@
-'use strict';
+'use strict'
 
-var mongoose = require('mongoose');
-var q = require('q');
+const MONGOOSE = require('mongoose')
+const Q = require('q')
 
-mongoose.Promise = q.Promise;
+MONGOOSE.Promise = Q.Promise
 
-var initialize = function(app) {
-    var modules = app.modules;
+let initialize = function(app) {
+    let modules = app.modules
     
-    var db = modules.dbconnect;
+    let db = modules.dbconnect
     
-    app.mongoose = mongoose.connect(db);
+    app.mongoose = MONGOOSE.connect(db)
     
     app.models = {
         user: require('./User')(app),
-    };
-};
+        game: require('./Game')(app)
+    }
+}
 
-module.exports = initialize;
+module.exports = initialize

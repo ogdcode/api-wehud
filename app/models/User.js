@@ -49,7 +49,7 @@ var userModel = function(app) {
     }
     
     userSchema.plugin(require('mongoose-timestamp'));
-    var user = app.mongoose.model('user', userSchema);
+    let user = app.mongoose.model('user', userSchema);
     
     return user;
 };

@@ -5,11 +5,11 @@ var bodyParser = require('body-parser').json();
 
 var usersRoutes = function(app) {
     router.post('/', bodyParser, app.actions.users.create);
-    router.get('/', app.middlewares.isAuthenticated, app.actions.users.read);
+    router.get('/:', app.middlewares.isAuthenticated, app.actions.users.read);
     router.put('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.update);
     router.delete('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.delete);
     
-    router.get('/', app.actions.users.list);
+    router.get('/all', app.actions.users.list);
     
     return router;
 };

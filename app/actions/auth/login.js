@@ -32,7 +32,6 @@ let login = function(app) {
                     let token = app.modules.jwt.generateToken(app, foundUser._id);
                     
                     res.status(200).json({ id: foundUser._id, token: token });
-                    
                 }
             }
         }).catch(function() {
