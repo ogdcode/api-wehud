@@ -29,7 +29,7 @@ const PEGI = {
     '5': '18+'
 }
 
-const CRITERIA = 'name,storyline,status,developers,publishers,franchise,game,game_modes,genres,first_release_date,cover,websites'
+const CRITERIA = 'name,storyline,status,developers,publishers,franchise,game,game_modes,genres,first_release_date,esrb,pegi,cover,websites'
 
 const EXCEPTION = x => res.status(500).json({ error: errs.ERR_SERVER })
 
@@ -51,9 +51,6 @@ let create = function(app) {
             parameters: params,
             headers: { 'X-Mashape-Key': KEY }
         }
-        
-        console.log(ESRB['1'])
-        console.log(PEGI['4'])
         
         http.get(GAMES + '/', args, (data, body) => {
             data.forEach(entry => {
