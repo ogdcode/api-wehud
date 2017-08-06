@@ -1,17 +1,18 @@
 'use strict'
 
-const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-
-let isAuthenticated = function(app) {
+let isAuthenticated = app => {
     let errs = app.errors
     let User = app.models.user
     
-    let task = function(req, res, next) {
+    let task = (req, res, next) => {
+        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        
         let header = req.header('Authorization')
         if (!header)
             return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
         
         header = header.split(' ')
+        
         if (header[0] !== 'Bearer')
             return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
         

@@ -1,25 +1,25 @@
-'use strict';
+'use strict'
 
-var initialize = function(app) {
-    var config = app.config;
+let initialize = app => {
+    let config = app.config
     
-    var map = {
+    let map = {
         '<user>': config.db.user,
         '<pass>': config.db.pass,
         '<name>': config.db.name
-    };
+    }
     
-    var path = config.db.path;
+    let path = config.db.path
     
     return replaceMultiple(path, map);
 };
 
 function replaceMultiple(str, map) {
-    var regex = new RegExp(Object.keys(map).join('|'), 'gi');
+    let regex = new RegExp(Object.keys(map).join('|'), 'gi')
     
-    return str.replace(regex, function(matched) {
-        return map[matched];
-    });
+    return str.replace(regex, matched => {
+        return map[matched]
+    })
 }
 
-module.exports = initialize;
+module.exports = initialize
