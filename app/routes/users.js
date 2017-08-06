@@ -1,17 +1,25 @@
-'use strict';
+'use strict'
 
-var router = require('express').Router();
-var bodyParser = require('body-parser').json();
+var router = require('express').Router()
+var bodyParser = require('body-parser').json()
 
-var usersRoutes = function(app) {
-    router.post('/', bodyParser, app.actions.users.create);
-    router.get('/:', app.middlewares.isAuthenticated, app.actions.users.read);
-    router.put('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.update);
-    router.delete('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.delete);
+// TODO: Add isAuthenticated middleware when finished the API.
+
+let usersRoutes = app => {
+    router.post('/', bodyParser, app.actions.users.create)
+    router.get('/user/:userId', app.actions.users.read)
+    router.put('/user/:userId', bodyParser, app.actions.users.update)
+    router.delete('/user/:userId', bodyParser, app.actions.users.delete)
     
-    router.get('/all', app.actions.users.list);
+    router.get('/', app.middlewares.isAuthenticated, app.actions.users.readByToken)
+    router.put('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.updateByToken)
+    router.delete('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.deleteByToken)
     
-    return router;
+    router.get('/all', app.actions.users.list)
+    router.patch('/follow/:userId', app.middlewares.isAuthenticated, app.actions.users.follow)
+    router.patch('/unfollow/:userId', app.middlewares.isAuthenticated, app.actions.users.unfollow)
+    
+    return router
 };
 
-module.exports = usersRoutes;
+module.exports = usersRoutes

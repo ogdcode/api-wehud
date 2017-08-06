@@ -1,23 +1,25 @@
-'use strict';
+'use strict'
 
-var read = function(app) {
-    var errs = app.errors;
-    var User = app.models.user;
+let read = app => {
+    let errs = app.errors
+    let User = app.models.user
     
-    let task = function(req, res) {
-        let currentUser = req.session.user;
+    let task = (req, res) => {
+        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
         
-        let query = User.findOne({ _id: currentUser._id });
-        let promise = query.exec();
+        let userId = req.params.userId
+        if (!userId)
+            return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
-        promise.then(function(user) {
-            res.status(200).json(user);
-        }).catch(function() {
-            res.status(500).json({ error: errs.ERR_SERVER });
-        });
-    };
+        let query = User.findById(userId)
+        let promise = query.exec()
+        
+        promise
+            .then(instance => res.status(200).json(instance))
+            .catch(EXCEPTION)
+    }
     
-    return task;
-};
+    return task
+}
 
-module.exports = read;
+module.exports = read

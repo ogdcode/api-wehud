@@ -1,6 +1,6 @@
 'use strict'
 
-let follow = (app) => {
+let unfollow = (app) => {
     let errs = app.errors
     let User = app.models.user
     
@@ -20,17 +20,17 @@ let follow = (app) => {
             if (!user)
                 res.status(404).json({ error: errs.ERR_NOTFOUND })
             else {
-                let newFollower = {
+                let oldFollower = {
                     _id: currentUser._id,
                     username: currentUser.username,
                     email: currentUser.email,
                     score: currentUser.score
                 }
                 
-                user.followers.push(newFollower)
+                user.followers.pull(oldFollower)
                 user.save()
                 
-                res.status(200).json({ following: user.username })
+                res.status(200).json({ unfollowing: user.username })
             }
         }).catch(EXCEPTION)
     }
@@ -38,4 +38,4 @@ let follow = (app) => {
     return task
 }
 
-module.exports = follow
+module.exports = unfollow

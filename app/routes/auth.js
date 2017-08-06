@@ -1,12 +1,13 @@
-'use strict';
+'use strict'
 
-var router = require('express').Router();
-var bodyParser = require('body-parser').json();
+let router = require('express').Router()
+let bodyParser = require('body-parser').json()
 
-var authRoutes = function(app) {
-    router.post('/login', bodyParser, app.actions.auth.login);
+let authRoutes = app => {
+    router.post('/login', bodyParser, app.actions.auth.login)
+    router.get('/logout', app.middlewares.isAuthenticated, app.actions.auth.logout)
     
-    return router;
+    return router
 };
 
-module.exports = authRoutes;
+module.exports = authRoutes

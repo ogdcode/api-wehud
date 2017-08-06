@@ -1,25 +1,25 @@
 'use strict'
 
-let del = app => {
+let read = app => {
     let errs = app.errors
     let User = app.models.user
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = () => res.status(204).send()
+        const RESPONSE = (user) => res.status(200).json(user)
         
-        let userId = req.params.userId
+        let currentUserId = req.session.user._id
         
-        if (!userId)
+        if (!currentUserId)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
-        let query = User.findByIdAndRemove(userId)
+        let query = User.findById(currentUserId)
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
-    }
+        promise.then(RESPONSE).catch(EXCEPTION);
+    };
     
     return task
-}
+};
 
-module.exports = del
+module.exports = read

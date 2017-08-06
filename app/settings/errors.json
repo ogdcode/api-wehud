@@ -1,6 +1,7 @@
 {
     "ERR_SERVER": "Server Error",
     "ERR_NOTFOUND": "Nothing was found",
+    "ERR_BADREQUEST": "Request seems to be malformed",
     "ERR_UNAUTHORIZED": "Invalid Token",
     "ERR_INVALIDCREDS": "Invalid Credentials",
     "ERR_USEREXISTS": "User already exists"

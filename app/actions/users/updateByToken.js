@@ -8,22 +8,23 @@ let update = app => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
         const RESPONSE = (user) => res.status(200).json(user)
         
+        var currentUserId = req.session.user._id
         let body = req.body
-        let userId = req.params.userId
         
-        if (!body)
-            return res.status(400).json({ error: errs.ERR_SERVER })
+        if (!currentUserId || !body)
+            return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
-        if (body.password)
+        if (body.password) {
             body.password = app.modules.encryption.encrypt(app, body.password)
+        }
         
-        let query = User.findByIdAndUpdate(userId, body)
+        let query = User.findByIdAndUpdate(currentUserId, body)
         let promise = query.exec()
         
         promise.then(RESPONSE).catch(EXCEPTION)
-    }
+    };
     
     return task
-}
+};
 
 module.exports = update
