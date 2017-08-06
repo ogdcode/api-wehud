@@ -1,17 +1,16 @@
-'use strict';
+'use strict'
 
-var jwt = require('jsonwebtoken');
+const JWT = require('jsonwebtoken')
 
 function generateToken(app, obj) {
-    
-    let payload = { _id: obj };
-    let options = { expiresIn: app.config.jwt.expiresIn };
-    return jwt.sign(payload, app.config.jwt.secret, options);
+    let payload = { _id: obj }
+    let options = { expiresIn: app.config.jwt.expiresIn }
+    return JWT.sign(payload, app.config.jwt.secret, options)
 }
 
 function verifyToken(app, token) {
-    return jwt.verify(token, app.config.jwt.secret);
+    return JWT.verify(token, app.config.jwt.secret)
 }
 
-module.exports.generateToken = generateToken;
-module.exports.verifyToken = verifyToken;
+module.exports.generateToken = generateToken
+module.exports.verifyToken = verifyToken
