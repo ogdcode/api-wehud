@@ -19,10 +19,27 @@ let create = app => {
             username: currentUser.username
         }
         
-        let post = new Post(body)        
-        let promise = post.save()
-        
-        promise.then(RESPONSE).catch(EXCEPTION)
+        // The body.receiver variable comes as a unique username.
+        if (body.receiver) {
+            let query = User.findOne({ username: body.receiver })
+            let promise = query.exec()
+            
+            promise.then(receiver => {
+                body.receiver = {
+                    _id: receiver._id,
+                    username: receiver.username
+                }
+                
+                let post = new Post(body)
+                post.save().then(RESPONSE).catch(EXCEPTION)
+                
+            }).catch(EXCEPTION)
+        } else {
+            let post = new Post(body)        
+            let promise = post.save()
+
+            promise.then(RESPONSE).catch(EXCEPTION)
+        }
     }
     
     return task

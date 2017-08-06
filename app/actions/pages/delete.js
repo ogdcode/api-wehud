@@ -1,23 +1,18 @@
 'use strict'
 
-let update = app => {
+let del = app => {
     let errs = app.errors
-    let Post = app.models.post
+    let Page = app.models.page
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
         const RESPONSE = () => res.status(204).send()
         
-        if (body.publisher || body.receiver)
-            return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
-        
-        let body = req.body
-        let postId = req.params.postId
-        
-        if (!body || !postId)
+        let pageId = req.params.pageId
+        if (!pageId)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
-        let query = Post.findByIdAndUpdate(postId, body)
+        let query = Page.findByIdAndRemove(pageId)
         let promise = query.exec()
         
         promise.then(RESPONSE).catch(EXCEPTION)
@@ -26,4 +21,4 @@ let update = app => {
     return task
 }
 
-module.exports = update
+module.exports = del

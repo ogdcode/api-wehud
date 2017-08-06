@@ -24,8 +24,7 @@ let follow = app => {
                 let newFollower = {
                     _id: currentUser._id,
                     username: currentUser.username,
-                    email: currentUser.email,
-                    score: currentUser.score
+                    email: currentUser.email
                 }
                 
                 user.followers.push(newFollower)

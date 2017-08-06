@@ -24,9 +24,9 @@ let isAuthenticated = app => {
         let promise = findUser.exec()
         
         promise.then(user => {
-            if (!user) {
+            if (!user)
                 res.status(404).json({ error: errs.ERR_NOTFOUND })
-            } else {
+            else {
                 req.session = {
                     user: user,
                     token: token

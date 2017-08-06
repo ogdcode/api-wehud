@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-var middlewares = function(app) {
+var middlewares = app => {
     app.middlewares = {
         isAuthenticated: require('./isAuthenticated')(app)
-    };
-};
+    }
+}
 
-module.exports = middlewares;
+module.exports = middlewares

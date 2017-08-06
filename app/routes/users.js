@@ -12,10 +12,12 @@ let routes = app => {
     router.get('/', app.middlewares.isAuthenticated, app.actions.users.readByToken)
     router.put('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.updateByToken)
     router.delete('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.deleteByToken)
+    router.get('/follow', app.middlewares.isAuthenticated, app.actions.users.getFollowedByToken)
     
     router.get('/all', app.actions.users.list)
     router.patch('/follow/:userId', app.middlewares.isAuthenticated, app.actions.users.follow)
     router.patch('/unfollow/:userId', app.middlewares.isAuthenticated, app.actions.users.unfollow)
+    router.get('/followed/:userId', app.actions.users.getFollowed)
     
     return router
 }

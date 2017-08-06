@@ -6,17 +6,35 @@ let del = app => {
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = () => res.status(204).send()
         
         let userId = req.params.userId
         
         if (!userId)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
-        let query = User.findByIdAndRemove(userId)
+        let query = User.findById(userId)
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.then(currentUser => {
+            let query = User.find()
+            let promise = query.exec()
+            
+            promise.then(users => {
+                users.forEach(user => {
+                    let followers = user.followers
+                    followers.forEach(u => {
+                        if (u._id.equals(userId)) {
+                            followers.pull(u)
+                            user.save()
+                        }
+                    })
+                })
+                
+                currentUser.remove()
+                
+                res.status(204).send()
+            }).catch(EXCEPTION)
+        }).catch(EXCEPTION)
     }
     
     return task

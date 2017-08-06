@@ -9,9 +9,11 @@ let actions = app => {
         readByToken: require('./readByToken')(app),
         updateByToken: require('./updateByToken')(app),
         deleteByToken: require('./deleteByToken')(app),
+        getFollowedByToken: require('./followedByToken')(app),
         list: require('./list')(app),
         follow: require('./follow')(app),
-        unfollow: require('./unfollow')(app)
+        unfollow: require('./unfollow')(app),
+        getFollowed: require('./followed')(app)
     };
     
     return paths
