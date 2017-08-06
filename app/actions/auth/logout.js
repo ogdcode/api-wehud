@@ -8,7 +8,7 @@ let logout = app => {
         currentUser.connected = false
         currentUser.save()
         
-        delete req.session;
+        delete req.session
         
         if (!req.session)
             res.status(204).send()
