@@ -1,30 +1,25 @@
 'use strict'
 
-let update = app => {
+let del = app => {
     let errs = app.errors
-    let User = app.models.user
+    let Post = app.models.post
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
         const RESPONSE = () => res.status(204).send()
         
-        var currentUserId = req.session.user._id
-        let body = req.body
+        let postId = req.params.postId
         
-        if (!currentUserId || !body)
+        if (!postId)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
-        if (body.password) {
-            body.password = app.modules.encryption.encrypt(app, body.password)
-        }
-        
-        let query = User.findByIdAndUpdate(currentUserId, body)
+        let query = Post.findByIdAndRemove(postId)
         let promise = query.exec()
         
         promise.then(RESPONSE).catch(EXCEPTION)
-    };
+    }
     
     return task
-};
+}
 
-module.exports = update
+module.exports = del

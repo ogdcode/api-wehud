@@ -1,21 +1,20 @@
-'use strict';
+'use strict'
 
-var list = function(app) {
-    var errs = app.errors;
-    var User = app.models.user;
+let list = app => {
+    let errs = app.errors
+    let User = app.models.user
     
-    let task = function(req, res) {
-        let query = User.find();
-        let promise = query.exec();
+    let task = (req, res) => {
+        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const RESPONSE = (users) => res.status(200).json(users)
+        
+        let query = User.find()
+        let promise = query.exec()
 
-        promise.then(function(users) {
-            res.status(200).json(users);
-        }).catch(function() {
-            res.status(500).json({ error: errs.ERR_SERVER });
-        });
-    };
+        promise.then(RESPONSE).catch(EXCEPTION)
+    }
     
-    return task;
-};
+    return task
+}
 
-module.exports = list;
+module.exports = list

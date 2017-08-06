@@ -31,9 +31,9 @@ const PEGI = {
 
 const CRITERIA = 'name,storyline,status,developers,publishers,franchise,game,game_modes,genres,first_release_date,esrb,pegi,cover,websites'
 
-var http = new HTTP()
+let http = new HTTP()
 
-let create = function(app) {    
+let create = app => {
     let errs = app.errors
     let Game = app.models.game
         

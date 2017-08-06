@@ -1,6 +1,6 @@
 'use strict'
 
-let follow = (app) => {
+let follow = app => {
     let errs = app.errors
     let User = app.models.user
     
@@ -16,7 +16,8 @@ let follow = (app) => {
         let query = User.findById(userId)
         let promise = query.exec()
         
-        promise.then(user => {
+        promise
+            .then(user => {
             if (!user)
                 res.status(404).json({ error: errs.ERR_NOTFOUND })
             else {

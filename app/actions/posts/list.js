@@ -2,19 +2,19 @@
 
 let list = app => {
     let errs = app.errors
-    let Game = app.models.game
+    let Post = app.models.post
     
-    let request = (req, res) => {
+    let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = (games) => res.status(200).json(games)
+        const RESPONSE = (posts) => res.status(200).json(posts)
         
-        let query = Game.find()
+        let query = Post.find()
         let promise = query.exec()
         
         promise.then(RESPONSE).catch(EXCEPTION)
     }
     
-    return request
+    return task
 }
 
 module.exports = list

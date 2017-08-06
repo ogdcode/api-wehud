@@ -6,7 +6,7 @@ let update = app => {
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = (user) => res.status(200).json(user)
+        const RESPONSE = () => res.status(204).send()
         
         let body = req.body
         let userId = req.params.userId

@@ -1,11 +1,9 @@
 'use strict'
 
-var router = require('express').Router()
-var bodyParser = require('body-parser').json()
+let router = require('express').Router()
+let bodyParser = require('body-parser').json()
 
-// TODO: Add isAuthenticated middleware when finished the API.
-
-let usersRoutes = app => {
+let routes = app => {
     router.post('/', bodyParser, app.actions.users.create)
     router.get('/user/:userId', app.actions.users.read)
     router.put('/user/:userId', bodyParser, app.actions.users.update)
@@ -20,6 +18,6 @@ let usersRoutes = app => {
     router.patch('/unfollow/:userId', app.middlewares.isAuthenticated, app.actions.users.unfollow)
     
     return router
-};
+}
 
-module.exports = usersRoutes
+module.exports = routes

@@ -7,6 +7,7 @@ let create = function(app) {
         
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const RESPONSE = (user) => res.status(201).json({ _id: user._id })
         
         let body = req.body;
 
@@ -18,9 +19,7 @@ let create = function(app) {
         let user = new User(body)
         let promise = user.save()
                 
-        promise
-            .then((instance) => res.status(201).json({ _id: instance._id }))
-            .catch(EXCEPTION);
+        promise.then(RESPONSE).catch(EXCEPTION);
     };
     
     return task

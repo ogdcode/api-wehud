@@ -3,7 +3,7 @@
 let userModel = app => {
     let schema = app.mongoose.Schema
     
-    var userSchema = schema({
+    let userSchema = schema({
         username: {
             type: String,
             required: true,

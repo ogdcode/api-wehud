@@ -14,6 +14,7 @@ let initialize = function(app) {
     
     app.models = {
         user: require('./User')(app),
+        post: require('./Post')(app),
         game: require('./Game')(app)
     }
 }

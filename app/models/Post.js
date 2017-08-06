@@ -1,11 +1,16 @@
-'use strict';
+'use strict'
 
-let postModel = function(app) {
-    var schema = app.mongoose.Schema;
+let postModel = app => {
+    let schema = app.mongoose.Schema
+    
     let postSchema = schema({
         publisher: {
             type: Object,
             ref: 'user',
+            required: true
+        },
+        text: {
+            type: String,
             required: true
         },
         game: {
@@ -16,18 +21,12 @@ let postModel = function(app) {
             type: Object,
             ref: 'user'
         },
-        text: {
-            type: String,
-            required: true
-        },
         opinion: {
             type: Boolean,
-            required: true,
             default: false
         },
         message: {
             type: Boolean,
-            required: true,
             default: false
         },
         rating: {
@@ -36,12 +35,12 @@ let postModel = function(app) {
         videoUri: {
             type: String
         }
-    });
+    })
     
-    postSchema.plugin(require('mongoose-timestamp'));
-    let post = app.mongoose.model('post', postSchema);
+    postSchema.plugin(require('mongoose-timestamp'))
+    let post = app.mongoose.model('post', postSchema)
     
-    return post;
-};
+    return post
+}
 
-module.exports = postModel;
+module.exports = postModel

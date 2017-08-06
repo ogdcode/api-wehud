@@ -6,6 +6,12 @@ let read = app => {
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const RESPONSE = (user) => {
+            if (!user)
+                res.status(404).json({ error: errs.ERR_NOTFOUND })
+            else
+                res.status(200).json(user)
+        }
         
         let userId = req.params.userId
         if (!userId)
@@ -14,9 +20,7 @@ let read = app => {
         let query = User.findById(userId)
         let promise = query.exec()
         
-        promise
-            .then(instance => res.status(200).json(instance))
-            .catch(EXCEPTION)
+        promise.then(RESPONSE).catch(EXCEPTION)
     }
     
     return task
