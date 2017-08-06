@@ -24,7 +24,7 @@ let login = app => {
         let query = User.findOne(options)
         let promise = query.exec()
         
-        promise.then((foundUser) => {
+        promise.then(foundUser => {
             if (!foundUser)
                 res.status(404).json({ error: errs.ERR_NOTFOUND })
             else {

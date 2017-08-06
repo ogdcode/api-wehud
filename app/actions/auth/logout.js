@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-let logout = function(app) {    
+let logout = app => {    
     let errs = app.errors
     
-    let task = function(req, res) {
+    let task = (req, res) => {
         let currentUser = req.session.user
         currentUser.connected = false
         currentUser.save()
@@ -14,9 +14,9 @@ let logout = function(app) {
             res.status(204).send()
         else
             res.status(500).json({ error: errs.ERR_SERVER })
-    };
+    }
     
-    return task;
-};
+    return task
+}
 
-module.exports = logout;
+module.exports = logout
