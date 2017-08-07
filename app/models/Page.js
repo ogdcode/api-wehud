@@ -13,6 +13,10 @@ let pageModel = app => {
             ref: 'user',
             required: true
         },
+        users: {
+            type: Array,
+            default: []
+        },
         posts: {
             type: Array,
             default: []

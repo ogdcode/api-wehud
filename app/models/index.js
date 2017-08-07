@@ -16,7 +16,9 @@ let initialize = function(app) {
         user: require('./User')(app),
         post: require('./Post')(app),
         page: require('./Page')(app),
-        game: require('./Game')(app)
+        game: require('./Game')(app),
+        event: require('./Event')(app),
+        planning: require('./Planning')(app)
     }
 }
 

@@ -18,6 +18,9 @@ let userModel = app => {
             type: String,
             required: true
         },
+        avatar: {
+            type: String
+        },
         connected: {
             type: Boolean,
             default: false

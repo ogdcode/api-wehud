@@ -239,7 +239,7 @@ let create = app => {
                 
                 if (!hasDevs && !hasPublishers && 
                     !hasFranchise && !hasGame &&
-                    !hasModes && !hasGenres) 
+                    !hasModes && !hasGenres)
                     newGame.save().catch(EXCEPTION)
             })
             

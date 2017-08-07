@@ -4,6 +4,8 @@ let update = app => {
     let errs = app.errors
     let User = app.models.user
     let Post = app.models.post
+    let Page = app.models.page
+    let Planning = app.models.planning
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
@@ -36,7 +38,7 @@ let update = app => {
                                     email: body.email
                                 }
                                 user.followers.push(newUser)
-                                user.save()
+                                user.save().catch(EXCEPTION)
                             }
                         })
                     })
@@ -62,14 +64,58 @@ let update = app => {
                                 post.receiver = newReceiver
                             }
                             
-                            post.save()
+                            post.save().catch(EXCEPTION)
+                            
+                            let query = Page.find()
+                            let promise = query.exec()
+                            
+                            promise.then(pages => {
+                                pages.forEach(page => {
+                                    if (page.owner._id.equals(userId)) {
+                                        let newOwner = {
+                                            _id: userId,
+                                            username: body.username
+                                        }
+                                        page.owner = newOwner
+                                    }
+                                    
+                                    if (page.users) {
+                                        page.users.forEach(user => {
+                                            if (user._id.equals(userId)) {
+                                                let newUser = {
+                                                    _id: userId,
+                                                    username: body.username
+                                                }
+                                                page.users.pull(user)
+                                                page.users.push(newUser)
+                                            }
+                                        })
+                                    }
+                                    
+                                    page.save().catch(EXCEPTION)
+                                })
+                                
+                                let query = Planning.find()
+                                let promise = query.exec()
+                                
+                                promise.then(plannings => {
+                                    plannings.forEach(planning => {
+                                        if (planning.creator._id.equals(userId)) {
+                                            let newCreator = {
+                                                _id: userId,
+                                                username: body.username
+                                            }
+                                            
+                                            planning.creator = newCreator
+                                            planning.save().catch(EXCEPTION)
+                                        }
+                                    })
+                                    
+                                    res.status(204).send()
+                                })
+                            })
+                            
                         })
-                        
-                        // TODO: Add similar checks for Page and Planning
-                        // Page: owner, users
-                        // Planning: creator
-                        
-                        res.status(204).send()
                     })
                 }).catch(EXCEPTION)
             } else

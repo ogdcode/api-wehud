@@ -13,7 +13,7 @@ let create = app => {
         
         if (!body || !body.text || !currentUser)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
-        
+                
         body.publisher = {
             _id: currentUser._id,
             username: currentUser.username
@@ -21,6 +21,9 @@ let create = app => {
         
         // The body.receiver variable comes as a unique username.
         if (body.receiver) {
+            if (body.receiver === currentUser.username)
+                return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
+            
             let query = User.findOne({ username: body.receiver })
             let promise = query.exec()
             
