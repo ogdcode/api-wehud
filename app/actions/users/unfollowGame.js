@@ -16,8 +16,7 @@ let unfollow = app => {
         let query = Game.findById(gameId)
         let promise = query.exec()
         
-        promise
-            .then(game => {
+        promise.then(game => {
             if (!game)
                 res.status(404).json({ error: errs.ERR_NOTFOUND })
             else {

@@ -1,6 +1,6 @@
 'use strict'
 
-let gameModel = function(app) {
+let gameModel = app => {
     let schema = app.mongoose.Schema
     
     let gameSchema = schema({

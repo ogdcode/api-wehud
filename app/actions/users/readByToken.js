@@ -6,7 +6,7 @@ let read = app => {
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = (user) => {
+        const RESPONSE = user => {
             if (!user)
                 res.status(404).json({ error: errs.NOTFOUND })
             else

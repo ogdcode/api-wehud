@@ -6,7 +6,7 @@ let followed = app => {
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = (users) => res.status(200).json(users)
+        const RESPONSE = users => res.status(200).json(users)
         
         let query = User.find()
         let promise = query.exec()
@@ -16,11 +16,10 @@ let followed = app => {
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
         let followedUsers = []
-        promise
-            .then((users) => {
-            users.forEach((user) => {
+        promise.then(users => {
+            users.forEach(user => {
                 let followers = user.followers
-                followers.forEach((u) => {
+                followers.forEach(u => {
                     if (u._id.equals(userId)) {
                         let followedUser = {
                             _id: u._id,
