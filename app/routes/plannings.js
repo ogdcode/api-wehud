@@ -10,7 +10,7 @@ let routes = app => {
     router.delete('/:planningId', app.actions.plannings.delete)
     
     router.get('/', app.actions.plannings.list)
-    router.patch('/:planningId/unbind', bodyParser, app.actions.plannings.unbind)
+    router.patch('/unbind/:planningId', bodyParser, app.actions.plannings.unbind)
     
     return router
 }

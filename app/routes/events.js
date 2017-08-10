@@ -10,8 +10,8 @@ let routes = app => {
     router.delete('/:eventId', app.models.events.delete)
     
     router.get('/', app.models.events.list)
-    router.patch('/:eventId/bind', bodyParser, app.actions.events.bind)
-    router.patch('/:eventId/unbind', bodyParser, app.actions.events.unbind)
+    router.patch('/bind/:eventId', bodyParser, app.actions.events.bind)
+    router.patch('/unbind/:eventId', bodyParser, app.actions.events.unbind)
     
     return router
 }

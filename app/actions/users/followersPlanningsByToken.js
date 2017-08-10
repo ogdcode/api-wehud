@@ -22,7 +22,7 @@ let followersPlannings = app => {
             promises.push(promise)
         })
         
-        Q.allSettled(promises).spread(RESPONSE).catch(EXCEPTION).done()
+        Q.all(promises).spread(RESPONSE).catch(EXCEPTION).done()
     }
     
     return task
