@@ -7,6 +7,7 @@ let isAuthenticated = app => {
     let task = (req, res, next) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
         
+        /*
         let header = req.header('Authorization')
         if (!header)
             return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
@@ -17,6 +18,12 @@ let isAuthenticated = app => {
             return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
         
         let token = header[1]
+        */
+        
+        let token = req.query.token
+        
+        if (!token)
+            return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
         let decoded = app.modules.jwt.verifyToken(app, token)
         

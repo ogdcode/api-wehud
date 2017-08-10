@@ -20,7 +20,7 @@ let bind = app => {
         
         promise.then(event => {
             if (!event)
-                return res.status(404).json{ error: errs.ERR_NOTFOUND }
+                return res.status(404).json({ error: errs.ERR_NOTFOUND })
             
             let query = Planning.findOne({ title: body.planning })
             let promise = query.exec()

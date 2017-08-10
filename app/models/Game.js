@@ -54,6 +54,10 @@ let gameModel = function(app) {
         },
         website: {
             type: String
+        },
+        followers: {
+            type: Array,
+            default: []
         }
     })
     

@@ -10,10 +10,14 @@ let actions = app => {
         updateByToken: require('./updateByToken')(app),
         deleteByToken: require('./deleteByToken')(app),
         getFollowedByToken: require('./followedByToken')(app),
+        getFollowedPostsByToken: require('./followedPostsByToken')(app),
+        getFollowed: require('./followed')(app),
+        getFollowedPosts: require('./followedPosts')(app),
         list: require('./list')(app),
         follow: require('./follow')(app),
+        followGame: require('./followGame')(app),
         unfollow: require('./unfollow')(app),
-        getFollowed: require('./followed')(app)
+        unfollowGame: require('./unfollowGame')(app)
     };
     
     return paths

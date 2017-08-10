@@ -5,7 +5,7 @@ const Q = require('q')
 
 MONGOOSE.Promise = Q.Promise
 
-let initialize = function(app) {
+let initialize = app => {
     let modules = app.modules
     
     let db = modules.dbconnect
