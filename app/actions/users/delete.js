@@ -29,76 +29,76 @@ let del = app => {
                     followers.forEach(u => {
                         if (u._id.equals(userId)) {
                             user.followers.pull(u)
-                            user.save().catch(EXCEPTION)
+                            user.save()
                         }
                     })
                 })
+            })
+            
+            let query2 = Game.find()
+            let promise2 = query2.exec()
 
-                let query = Game.find()
-                let promise = query.exec()
-
-                promise.then(games => {
-                    games.forEach(game => {
-                        game.followers.forEach(user => {
-                            if (user._id.equals(userId)) {
-                                game.followers.pull(user)
-                                game.save().catch(EXCEPTION)
-                            }
-                        })
+            promise2.then(games => {
+                games.forEach(game => {
+                    game.followers.forEach(user => {
+                        if (user._id.equals(userId)) {
+                            game.followers.pull(user)
+                            game.save()
+                        }
                     })
+                })
+            })
+            
+            let query3 = Post.find()
+            let promise3 = query3.exec()
 
-                    let query = Post.find()
-                    let promise = query.exec()
+            promise3.then(posts => {
+                posts.forEach(post => {
+                    if (post.publisher._id.equals(userId))
+                        post.remove().catch(EXCEPTION)
+                    else {
+                        if (post.receiver && post.receiver._id.equals(userId)) 
+                            post.receiver = null
 
-                    promise.then(posts => {
-                        posts.forEach(post => {
-                            if (post.publisher._id.equals(userId))
-                                post.remove().catch(EXCEPTION)
-                            else {
-                                if (post.receiver && post.receiver._id.equals(userId)) 
-                                    post.receiver = null
+                        post.save()
+                    }
+                })
+            })
+            
+            let query4 = Page.find()
+            let promise4 = query4.exec()
 
-                                post.save().catch(EXCEPTION)
-                            }
-                        })
-
-                        let query = Page.find()
-                        let promise = query.exec()
-
-                        promise.then(pages => {
-                            pages.forEach(page => {
-                                if (page.owner._id.equals(userId))
-                                    page.remove().catch(EXCEPTION)
-                                else {
-                                    if (page.users) {
-                                        page.users.forEach(user => {
-                                            if (user._id.equals(userId))
-                                                page.users.pull(user)
-                                        })
-                                    }
-
-                                    page.save().catch(EXCEPTION)
-                                }
+            promise4.then(pages => {
+                pages.forEach(page => {
+                    if (page.owner._id.equals(userId))
+                        page.remove().catch(EXCEPTION)
+                    else {
+                        if (page.users) {
+                            page.users.forEach(user => {
+                                if (user._id.equals(userId))
+                                    page.users.pull(user)
                             })
+                        }
 
-                            let query = Planning.find()
-                            let promise = query.exec()
+                        page.save().catch(EXCEPTION)
+                    }
+                })
+            })
+            
+            let query5 = Planning.find()
+            let promise5 = query5.exec()
 
-                            promise.then(plannings => {
-                                plannings.forEach(planning => {
-                                    if (planning.creator._id.equals(userId))
-                                        planning.remove().catch(EXCEPTION)
-                                })
+            promise5.then(plannings => {
+                plannings.forEach(planning => {
+                    if (planning.creator._id.equals(userId))
+                        planning.remove().catch(EXCEPTION)
+                })
 
-                                currentUser.remove().catch(EXCEPTION)
-
-                                res.status(204).send()
-
-                            }).catch(EXCEPTION)
-                        }).catch(EXCEPTION)
-                    }).catch(EXCEPTION)
-                }).catch(EXCEPTION)
-            }).catch(EXCEPTION)
+                currentUser.remove().catch(EXCEPTION)
+            })
+            
+            res.status(204).send()
+            
         }).catch(EXCEPTION)
     }
     

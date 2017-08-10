@@ -1,5 +1,7 @@
 'use strict'
 
+const Q = require('q')
+
 let list = app => {
     let errs = app.errors
     let User = app.models.user
@@ -14,18 +16,24 @@ let list = app => {
         if (!userId)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
-        let query = User.findById(userId)
+        let query = User.find()
         let promise = query.exec()
         
-        promise.then(user => {
-            if (!user)
-                return res.status(404).json({ error: errs.ERR_NOTFOUND })
+        promise.then(users => {
+            let promises = []
+            users.forEach(user => {
+                user.followers.forEach(u => {
+                    if (u._id.equals(userId)) {
+                        let query = Post.find({ 'publisher._id': user._id })
+                        let promise = query.exec()
+                        promises.push(promise)
+                    }
+                })
+            })
             
-            let query = Post.find({ publisher: user })
-            let promise = query.exec()
-
-            promise.then(RESPONSE).catch(EXCEPTION)
-        })
+            Q.allSettled(promises).spread(RESPONSE).catch(EXCEPTION).done()
+            
+        }).catch(EXCEPTION)
     }
     
     return task

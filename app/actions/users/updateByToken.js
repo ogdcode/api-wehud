@@ -23,11 +23,12 @@ let update = app => {
         let query = User.findByIdAndUpdate(userId, body)
         let promise = query.exec()
         
-        promise.then(currentUser => {
+        promise.then(() => {
             if (body.username || body.email) {
+                
                 let query = User.find()
                 let promise = query.exec()
-                            
+                                
                 promise.then(users => {
                     users.forEach(user => {
                         user.followers.forEach(u => {
@@ -39,107 +40,107 @@ let update = app => {
                                     email: body.email
                                 }
                                 user.followers.push(newUser)
-                                user.save().catch(EXCEPTION)
+                                user.save()
                             }
                         })
                     })
-                                        
-                    let query = Game.find()
-                    let promise = query.exec()
-                    
-                    promise.then(games => {
-                        games.forEach(game => {
-                            game.followers.forEach(user => {
-                                if (user._id.equals(userId)) {
-                                    game.followers.pull(user)
-                                    let newUser = {
-                                        _id: user._id,
-                                        username: body.username,
-                                        email: body.email
-                                    }
-                                    game.followers.push(newUser)
-                                    game.save().catch(EXCEPTION)
+                })
+                
+                let query2 = Game.find()
+                let promise2 = query2.exec()
+
+                promise2.then(games => {
+                    games.forEach(game => {
+                        game.followers.forEach(user => {
+                            if (user._id.equals(userId)) {
+                                game.followers.pull(user)
+                                let newUser = {
+                                    _id: user._id,
+                                    username: body.username,
+                                    email: body.email
                                 }
-                            })
-                        })
-                        
-                        let query = Post.find()
-                        let promise = query.exec()
-
-                        promise.then(posts => {
-                            posts.forEach(post => {
-                                if (post.publisher._id.equals(userId)) {
-                                    let newPublisher = {
-                                        _id: userId,
-                                        username: body.username
-                                    }
-                                    post.publisher = newPublisher
-                                }
-
-                                if (post.receiver && post.receiver._id.equals(userId)) {
-                                    let newReceiver = {
-                                        _id: userId,
-                                        username: body.username
-                                    }
-                                    post.receiver = newReceiver
-                                }
-
-                                post.save().catch(EXCEPTION)
-                            })
-
-                            let query = Page.find()
-                            let promise = query.exec()
-
-                            promise.then(pages => {
-                                pages.forEach(page => {
-                                    if (page.owner._id.equals(userId)) {
-                                        let newOwner = {
-                                            _id: userId,
-                                            username: body.username
-                                        }
-                                        page.owner = newOwner
-                                    }
-
-                                    if (page.users) {
-                                        page.users.forEach(user => {
-                                            if (user._id.equals(userId)) {
-                                                let newUser = {
-                                                    _id: userId,
-                                                    username: body.username
-                                                }
-                                                page.users.pull(user)
-                                                page.users.push(newUser)
-                                            }
-                                        })
-                                    }
-
-                                    page.save().catch(EXCEPTION)
-                                })
-
-                                let query = Planning.find()
-                                let promise = query.exec()
-
-                                promise.then(plannings => {
-                                    plannings.forEach(planning => {
-                                        if (planning.creator._id.equals(userId)) {
-                                            let newCreator = {
-                                                _id: userId,
-                                                username: body.username
-                                            }
-
-                                            planning.creator = newCreator
-                                            planning.save().catch(EXCEPTION)
-                                        }
-                                    })
-
-                                    res.status(204).send()
-                                })
-                            })
+                                game.followers.push(newUser)
+                                game.save()
+                            }
                         })
                     })
-                }).catch(EXCEPTION)
-            } else
-                res.status(204).send()
+                })
+                
+                let query3 = Post.find()
+                let promise3 = query3.exec()
+
+                promise3.then(posts => {
+                    posts.forEach(post => {
+                        if (post.publisher._id.equals(userId)) {
+                            let newPublisher = {
+                                _id: userId,
+                                username: body.username
+                            }
+                            post.publisher = newPublisher
+                        }
+
+                        if (post.receiver && post.receiver._id.equals(userId)) {
+                            let newReceiver = {
+                                _id: userId,
+                                username: body.username
+                            }
+                            post.receiver = newReceiver
+                        }
+
+                        post.save()
+                    })
+                })
+                
+                let query4 = Page.find()
+                let promise4 = query4.exec()
+
+                promise4.then(pages => {
+                    pages.forEach(page => {
+                        if (page.owner._id.equals(userId)) {
+                            let newOwner = {
+                                _id: userId,
+                                username: body.username
+                            }
+                            page.owner = newOwner
+                        }
+
+                        if (page.users) {
+                            page.users.forEach(user => {
+                                if (user._id.equals(userId)) {
+                                    let newUser = {
+                                        _id: userId,
+                                        username: body.username
+                                    }
+                                    page.users.pull(user)
+                                    page.users.push(newUser)
+                                }
+                            })
+                        }
+
+                        page.save()
+                    })
+                })
+                
+                let query5 = Planning.find()
+                let promise5 = query5.exec()
+
+                promise5.then(plannings => {
+                    plannings.forEach(planning => {
+                        if (planning.creator._id.equals(userId)) {
+                            let newCreator = {
+                                _id: userId,
+                                username: body.username
+                            }
+
+                            planning.creator = newCreator
+                            planning.save()
+                        }
+                    })
+                })
+            }
+            
+            res.status(204).send()
+            
         }).catch(EXCEPTION)
     }
     return task

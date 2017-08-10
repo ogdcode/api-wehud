@@ -17,10 +17,10 @@ let followed = app => {
         
         let followedUsers = []
         promise
-            .then((users) => {
-            users.forEach((user) => {
+            .then(users => {
+            users.forEach(user => {
                 let followers = user.followers
-                followers.forEach((u) => {
+                followers.forEach(u => {
                     if (u._id.equals(userId)) {
                         let followedUser = {
                             _id: u._id,

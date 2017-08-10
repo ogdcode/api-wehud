@@ -30,7 +30,7 @@ let follow = app => {
                 user.followers.push(newFollower)
                 user.save()
                 
-                res.status(200).json({ following: user.username })
+                res.status(200).json({ following: currentUser.username })
             }
         }).catch(EXCEPTION)
     }

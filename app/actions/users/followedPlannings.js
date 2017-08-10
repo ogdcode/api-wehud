@@ -5,11 +5,11 @@ const Q = require('q')
 let list = app => {
     let errs = app.errors
     let User = app.models.user
-    let Post = app.models.post
+    let Planning = app.models.planning
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = posts => res.status(200).json(posts)
+        const RESPONSE = plannings => res.status(200).json(plannings)
         
         let userId = req.params.userId
         
@@ -24,7 +24,7 @@ let list = app => {
             users.forEach(user => {
                 user.followers.forEach(u => {
                     if (u._id.equals(userId)) {
-                        let query = Post.find({ 'publisher._id': user._id })
+                        let query = Planning.find({ 'creator._id': user._id })
                         let promise = query.exec()
                         promises.push(promise)
                     }
@@ -32,7 +32,6 @@ let list = app => {
             })
             
             Q.allSettled(promises).spread(RESPONSE).catch(EXCEPTION).done()
-            
         }).catch(EXCEPTION)
     }
     

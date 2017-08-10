@@ -30,7 +30,7 @@ let unfollow = app => {
                 user.followers.pull(oldFollower)
                 user.save()
                 
-                res.status(200).json({ unfollowing: user.username })
+                res.status(200).json({ unfollowing: currentUser.username })
             }
         }).catch(EXCEPTION)
     }
