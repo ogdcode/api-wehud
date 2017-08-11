@@ -34,6 +34,10 @@ let postModel = app => {
         },
         videoUri: {
             type: String
+        },
+        likes: {
+            type: Array,
+            default: []
         }
     })
     

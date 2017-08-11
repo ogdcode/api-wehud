@@ -6,7 +6,11 @@ let actions = app => {
         read: require('./read')(app),
         update: require('./update')(app),
         delete: require('./delete')(app),
-        list: require('./list')(app)
+        list: require('./list')(app),
+        like: require('./like')(app),
+        dislike: require('./dislike')(app),
+        likeByToken: require('./likeByToken')(app),
+        dislikeByToken: require('./dislikeByToken')(app)
     }
     
     return paths

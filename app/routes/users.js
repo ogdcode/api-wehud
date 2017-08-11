@@ -9,6 +9,19 @@ let routes = app => {
     router.put('/user/:userId', bodyParser, app.actions.users.update)
     router.delete('/user/:userId', bodyParser, app.actions.users.delete)
     
+    router.get('/all', app.actions.users.list)
+    
+    router.get('/posts/:userId', app.actions.users.posts)
+    router.get('/games/:userId', app.actions.users.games)
+    router.get('/plannings/:userId', app.actions.users.plannings)
+    router.get('/pages/:userId', app.actions.users.pages)
+    
+    router.get('/followed/:userId', app.actions.users.followed)
+    router.get('/followed/posts/:userId', app.actions.users.followedPosts)
+    router.get('/followed/plannings/:userId', app.actions.users.followedPlannings)
+    router.get('/followers/posts/:userId', app.actions.users.followersPosts)
+    router.get('/followers/plannings/:userId', app.actions.users.followersPlannings)
+    
     router.get('/', app.middlewares.isAuthenticated, app.actions.users.readByToken)
     router.put('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.updateByToken)
     router.delete('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.deleteByToken)
@@ -22,18 +35,6 @@ let routes = app => {
     router.get('/followed/plannings', app.middlewares.isAuthenticated, app.actions.users.followedPlanningsByToken)
     router.get('/followers/posts', app.middlewares.isAuthenticated, app.actions.users.followersPostsByToken)
     router.get('/followers/plannings', app.middlewares.isAuthenticated, app.actions.users.followersPlanningsByToken)
-    
-    router.get('/all', app.actions.users.list)
-    router.get('/posts/:userId', app.actions.users.posts)
-    router.get('/games/:userId', app.actions.users.games)
-    router.get('/plannings/:userId', app.actions.users.plannings)
-    router.get('/pages/:userId', app.actions.users.pages)
-    
-    router.get('/followed/:userId', app.actions.users.followed)
-    router.get('/followed/posts/:userId', app.actions.users.followedPosts)
-    router.get('/followed/plannings/:userId', app.actions.users.followedPlannings)
-    router.get('/followers/posts/:userId', app.actions.users.followersPosts)
-    router.get('/followers/plannings/:userId', app.actions.users.followersPlannings)
     
     router.patch('/follow/:userId', app.middlewares.isAuthenticated, app.actions.users.follow)
     router.patch('/unfollow/:userId', app.middlewares.isAuthenticated, app.actions.users.unfollow)
