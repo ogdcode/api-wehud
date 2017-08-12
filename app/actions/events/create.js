@@ -2,7 +2,7 @@
 
 let create = app => {
     let errs = app.errors
-    let Event = app.models.events
+    let Event = app.models.event
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })

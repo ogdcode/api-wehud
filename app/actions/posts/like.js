@@ -7,9 +7,17 @@ let like = app => {
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
         const RESPONSE = post => {
-            post.likes.push(userId)
-            post.save()
-            res.status(204).send()
+            if (userId.equals(post.publisher._id))
+                res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
+            else {
+                post.likes.forEach(like => {
+                    if (like._id.equals(userId))
+                        return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
+                })
+                post.likes.push(userId)
+                post.save()
+                res.status(204).send()
+            }
         }
         
         let userId = req.params.userId

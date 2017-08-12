@@ -18,6 +18,8 @@ let read = app => {
         
         promise.then(RESPONSE).catch(EXCEPTION)
     }
+    
+    return task
 }
 
 module.exports = read

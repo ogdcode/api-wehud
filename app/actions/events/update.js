@@ -15,7 +15,7 @@ let update = app => {
         if (!body || !eventId)
             return res.status(400).json({ error: errs.BADREQUEST })
         
-        let query = findById(eventId)
+        let query = Event.findById(eventId)
         let promise = query.exec()
         
         promise.then(event => {

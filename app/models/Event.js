@@ -14,25 +14,20 @@ let eventModel = app => {
             required: true
         },
         startDate: {
-            type: Number,
-            required: true,
+            type: Date,
             default: Date.now
         },
         endDate: {
-            type: Number,
-            required: true,
-            default: Date.now + (24 * 60 * 60 * 1000) // The following day, in ms
+            type: Date,
+            default: + new Date() + 24 * 60 * 60 * 1000 // The following day, in ms
         },
         tag: {
             type: Number,
-            required: true,
             default: 0
         }
-    })
+    }, { timestamps: true })
     
-    eventSchema.plugin(require('mongoose-timestamp'))
     let event = app.mongoose.model('event', eventSchema)
-    
     return event
 }
 

@@ -36,7 +36,7 @@ let postModel = app => {
             type: String
         },
         likes: {
-            type: Array,
+            type: [schema.Types.ObjectId],
             default: []
         }
     })

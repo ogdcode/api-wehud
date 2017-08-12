@@ -9,8 +9,9 @@ let update = app => {
         const RESPONSE = () => res.status(204).send()
         
         let planningId = req.params.planningId
+        let body = req.body
         
-        if (!planningId)
+        if (!planningId || !body)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
         let query = Planning.findByIdAndUpdate(planningId, body)

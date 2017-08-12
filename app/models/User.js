@@ -35,7 +35,6 @@ let userModel = app => {
         },
         token: {
             type: String,
-            select: false,
             default: null
         }
     })
