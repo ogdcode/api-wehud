@@ -6,7 +6,7 @@ let create = app => {
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = event => res.status(201).json({ _id: event._id })
+        const RESPONSE = event => res.status(201).json({ _id: event._id, title: event.title })
         
         let body = req.body
         
