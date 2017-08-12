@@ -37,11 +37,9 @@ let userModel = app => {
             type: String,
             default: null
         }
-    })
+    }, { timestamps: true })
     
-    userSchema.plugin(require('mongoose-timestamp'))
-    let user = app.mongoose.model('user', userSchema)
-    
+    let user = app.mongoose.model('user', userSchema)    
     return user
 }
 

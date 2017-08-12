@@ -39,9 +39,8 @@ let postModel = app => {
             type: [schema.Types.ObjectId],
             default: []
         }
-    })
+    }, { timestamps: true })
     
-    postSchema.plugin(require('mongoose-timestamp'))
     let post = app.mongoose.model('post', postSchema)
     
     return post

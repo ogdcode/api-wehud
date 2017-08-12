@@ -18,11 +18,9 @@ let planningModel = app => {
             type: Array,
             default: []
         }
-    })
+    }, { timestamps: true })
     
-    planningSchema.plugin(require('mongoose-timestamp'))
-    let planning = app.mongoose.model('planning', planningSchema)
-    
+    let planning = app.mongoose.model('planning', planningSchema)    
     return planning
 }
 

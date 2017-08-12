@@ -21,11 +21,9 @@ let pageModel = app => {
             type: Array,
             default: []
         }
-    })
+    }, { timestamps: true })
     
-    pageSchema.plugin(require('mongoose-timestamp'))
-    let page = app.mongoose.model('page', pageSchema)
-    
+    let page = app.mongoose.model('page', pageSchema)    
     return page
 }
 

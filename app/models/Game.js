@@ -59,11 +59,9 @@ let gameModel = app => {
             type: Array,
             default: []
         }
-    })
+    }, { timestamps: true })
     
-    gameSchema.plugin(require('mongoose-timestamp'))
     let game = app.mongoose.model('game', gameSchema)
-    
     return game
 }
 
