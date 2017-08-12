@@ -9,6 +9,7 @@ let logout = app => {
         currentUser.save()
         
         delete req.session
+        currentUser.token = null
         
         if (!req.session)
             res.status(204).send()

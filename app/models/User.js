@@ -32,6 +32,11 @@ let userModel = app => {
         score: {
             type: Number,
             default: 0
+        },
+        token: {
+            type: String,
+            select: false,
+            default: null
         }
     })
     

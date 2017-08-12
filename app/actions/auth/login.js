@@ -35,6 +35,7 @@ let login = app => {
                     foundUser.save()
                     
                     let token = app.modules.jwt.generateToken(app, foundUser._id)
+                    foundUser.token = token
                     
                     res.status(200).json({ id: foundUser._id, token: token })
                 }
