@@ -14,7 +14,7 @@ let pageModel = app => {
             required: true
         },
         users: {
-            type: Array,
+            type: [schema.Types.ObjectId],
             default: []
         },
         posts: {
