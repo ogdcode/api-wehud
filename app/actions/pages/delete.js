@@ -6,7 +6,12 @@ let del = app => {
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = () => res.status(204).send()
+        const RESPONSE = () => {
+            let currentUser = req.session.user
+            currentUser.pages.pull(pageId)
+            currentUser.save()
+            res.status(204).send()
+        }
         
         let pageId = req.params.pageId
         if (!pageId)

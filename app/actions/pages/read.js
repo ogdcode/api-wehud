@@ -12,7 +12,7 @@ let read = app => {
         const RESPONSE = page => {
             if (!page)
                 res.status(404).json({ error: errs.ERR_NOTFOUND })
-            else if (page.users) {
+            else if (page.users.length > 0) {
                 let promises = []
                 page.users.forEach(userId => {
                     let query = Post.find({ 'publisher._id': userId })

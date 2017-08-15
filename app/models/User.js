@@ -33,6 +33,10 @@ let userModel = app => {
             type: Number,
             default: 0
         },
+        pages: {
+            type: [schema.Types.ObjectId],
+            default: []
+        },
         token: {
             type: String,
             default: null
