@@ -2,18 +2,6 @@
 
 const Q = require('q')
 
-function flatten(arr) {
-    var ret = [];
-    for(var i = 0; i < arr.length; i++) {
-        if(Array.isArray(arr[i])) {
-            ret = ret.concat(flatten(arr[i]));
-        } else {
-            ret.push(arr[i]);
-        }
-    }
-    return ret;
-}
-
 let list = app => {
     let errs = app.errors
     let Page = app.models.page
@@ -28,6 +16,7 @@ let list = app => {
         promise.then(pages => {
             let proms = []
             pages.forEach(page => {
+                page.users = ['598ecc7774459e02f455e4d7']
                 if (page.users.length > 0) {
                     let promises = []
                     page.users.forEach(userId => {
@@ -42,11 +31,14 @@ let list = app => {
             })
             
             Q.all(proms).spread(results => {
-                pages.forEach(page => {
-                    if (page.users.length > 0 && page.posts.length == 0) {
-                        page.posts = flatten(results)
-                        console.log(page)
-                    }
+                results.forEach(result => {
+                    let found = false
+                    pages.forEach(page => {
+                        if (page.users.length > 0 && page.posts.length == 0 && !found) {
+                            page.posts = result
+                            found = true
+                        }
+                    })
                 })
                 
                 res.status(200).json(pages)
