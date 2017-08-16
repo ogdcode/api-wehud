@@ -1,9 +1,12 @@
 'use strict'
 
+const Q = require('q')
+
 let create = app => {
     let errs = app.errors
     let Post = app.models.post
     let User = app.models.user
+    let Game = app.models.game
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
@@ -20,6 +23,8 @@ let create = app => {
             username: currentUser.username
         }
         
+        let promises = []
+        
         // The body.receiver variable comes as a unique username.
         if (body.receiver) {
             if (body.receiver === currentUser.username)
@@ -28,16 +33,44 @@ let create = app => {
             let query = User.findOne({ username: body.receiver })
             let promise = query.exec()
             
-            promise.then(receiver => {
-                body.receiver = {
-                    _id: receiver._id,
-                    username: receiver.username
-                }
-                
+            promises.push(promise)
+        }
+        
+        if (body.game) {
+            let query = Game.findOne({ name: body.game })
+            let promise = query.exec()
+            
+            promises.push(promise)
+        }
+        
+        if (promises.length > 0) {
+            Q.all(promises).then(results => {
+                results.forEach(result => {
+                    
+                    // If result has a username, then it is a User object.
+                    if (result.username) {
+                        console.log(result._id)
+                        body.receiver = {
+                            _id: result._id,
+                            username: result.username
+                        }
+                    }
+                    
+                    // If result has a name, then it is a Game object.
+                    if (result.name) {
+                        console.log(result._id)
+                        body.game = {
+                            _id: result._id,
+                            name: result.name
+                        }
+                    }                    
+                })
+                                
                 let post = new Post(body)
-                post.save().then(RESPONSE).catch(EXCEPTION)
+                let promise = post.save()
                 
-            }).catch(EXCEPTION)
+                promise.then(RESPONSE).catch(EXCEPTION)
+            })
         } else {
             let post = new Post(body)        
             let promise = post.save()
