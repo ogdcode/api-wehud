@@ -16,6 +16,7 @@ let list = app => {
         promise.then(pages => {
             let proms = []
             pages.forEach(page => {
+                //page.users = ['598ecc7774459e02f455e4d7']
                 if (page.users.length > 0) {
                     let promises = []
                     page.users.forEach(userId => {
@@ -29,19 +30,23 @@ let list = app => {
                 }
             })
             
-            Q.all(proms).spread(results => {
-                results.forEach(result => {
-                    let found = false
-                    pages.forEach(page => {
-                        if (page.users.length > 0 && page.posts.length == 0 && !found) {
-                            page.posts = result
-                            found = true
-                        }
+            if (proms.length > 0) {
+                Q.all(proms).spread(results => {
+                    let pageList = []
+                    results.forEach(result => {
+                        let found = false
+                        pages.forEach(page => {
+                            if (page.users.length > 0 && page.posts.length === 0 && !found) {
+                                page.posts = result
+                                found = true
+                            }
+                            pageList.push(page)
+                        })
                     })
+
+                    res.status(200).json(pageList)
                 })
-                
-                res.status(200).json(pages)
-            })
+            } else res.status(200).json(pages)
         }).catch(EXCEPTION)
     }
     
