@@ -16,7 +16,6 @@ let list = app => {
         promise.then(pages => {
             let proms = []
             pages.forEach(page => {
-                page.users = ['598ecc7774459e02f455e4d7']
                 if (page.users.length > 0) {
                     let promises = []
                     page.users.forEach(userId => {
