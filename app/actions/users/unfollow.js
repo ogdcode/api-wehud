@@ -1,8 +1,11 @@
 'use strict'
 
+const Q = require('q')
+
 let unfollow = app => {
     let errs = app.errors
     let User = app.models.user
+    let Page = app.models.page
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
@@ -13,11 +16,19 @@ let unfollow = app => {
         if (!currentUser || !userId)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
-        let query = User.findById(userId)
-        let promise = query.exec()
+        let promises = []
         
-        promise.then(user => {
-            if (!user)
+        let query = User.findById(userId)
+        promises.push(query.exec())
+        
+        query = Page.find({ 'owner._id': currentUser._id })
+        promises.push(query.exec())
+        
+        Q.all(promises).catch(EXCEPTION).done(values => {
+            let user = values[0]
+            let pages = values[1]
+            
+            if (!user || !pages)
                 res.status(404).json({ error: errs.ERR_NOTFOUND })
             else {
                 let oldFollower = {
@@ -29,9 +40,18 @@ let unfollow = app => {
                 user.followers.pull(oldFollower)
                 user.save()
                 
+                pages.forEach(page => {
+                    page.users.forEach(uId => {
+                        if (uId.equals(userId)) {
+                            page.users.pull(uId)
+                            page.save()
+                        }
+                    })
+                })
+                
                 res.status(200).json({ unfollowing: user.username })
             }
-        }).catch(EXCEPTION)
+        })
     }
     
     return task

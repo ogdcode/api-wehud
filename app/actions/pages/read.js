@@ -19,6 +19,11 @@ let read = app => {
                     let promise = query.exec()
                     promises.push(promise)
                 })
+                page.games.forEach(gameId => {
+                    let query = Post.find({ 'game._id': gameId })
+                    let promise = query.exec()
+                    promises.push(promise)
+                })
 
                 Q.all(promises).spread(posts => {
                     page.posts = posts

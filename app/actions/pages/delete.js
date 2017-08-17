@@ -8,7 +8,6 @@ let del = app => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
         const RESPONSE = () => {
             let currentUser = req.session.user
-            currentUser.pages.pull(pageId)
             currentUser.save()
             res.status(204).send()
         }

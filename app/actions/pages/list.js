@@ -23,6 +23,11 @@ let list = app => {
                         let promise = query.exec()
                         promises.push(promise)
                     })
+                    page.games.forEach(gameId => {
+                        let query = Post.find({ 'game._id': gameId })
+                        let promise = query.exec()
+                        promises.push(promise)
+                    })
                     
                     let prom = Q.all(promises)
                     proms.push(prom)
@@ -35,7 +40,8 @@ let list = app => {
                     results.forEach(result => {
                         let found = false
                         pages.forEach(page => {
-                            if (page.users.length > 0 && page.posts.length === 0 && !found) {
+                            let hasUsersOrGames = page.users.length > 0 || page.games.length > 0
+                            if (hasUsersOrGames && page.posts.length === 0 && !found) {
                                 page.posts = result
                                 found = true
                             }

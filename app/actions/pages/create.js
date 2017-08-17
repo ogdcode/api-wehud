@@ -7,7 +7,6 @@ let create = app => {
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
         const RESPONSE = page => {
-            currentUser.pages.push(page._id)
             currentUser.save()
             res.status(201).json({ _id: page._id, title: page.title })
         }

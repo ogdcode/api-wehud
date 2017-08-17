@@ -36,9 +36,9 @@ let routes = app => {
     router.get('/followers/posts', app.middlewares.isAuthenticated, app.actions.users.followersPostsByToken)
     router.get('/followers/plannings', app.middlewares.isAuthenticated, app.actions.users.followersPlanningsByToken)
     
-    router.patch('/follow/:userId', app.middlewares.isAuthenticated, app.actions.users.follow)
+    router.patch('/follow/:userId', bodyParser, app.middlewares.isAuthenticated, app.actions.users.follow)
     router.patch('/unfollow/:userId', app.middlewares.isAuthenticated, app.actions.users.unfollow)
-    router.patch('/follow/game/:gameId', app.middlewares.isAuthenticated, app.actions.users.followGame)
+    router.patch('/follow/game/:gameId', bodyParser, app.middlewares.isAuthenticated, app.actions.users.followGame)
     router.patch('/unfollow/game/:gameId', app.middlewares.isAuthenticated, app.actions.users.unfollowGame)
     
     return router

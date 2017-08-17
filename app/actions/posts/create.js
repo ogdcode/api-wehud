@@ -48,22 +48,18 @@ let create = app => {
                 results.forEach(result => {
                     
                     // If result has a username, then it is a User object.
-                    if (result.username) {
-                        console.log(result._id)
+                    if (result.username)
                         body.receiver = {
                             _id: result._id,
                             username: result.username
                         }
-                    }
                     
                     // If result has a name, then it is a Game object.
-                    if (result.name) {
-                        console.log(result._id)
+                    if (result.name)
                         body.game = {
                             _id: result._id,
                             name: result.name
-                        }
-                    }                    
+                        }     
                 })
                                 
                 let post = new Post(body)

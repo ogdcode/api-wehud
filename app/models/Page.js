@@ -17,6 +17,10 @@ let pageModel = app => {
             type: [schema.Types.ObjectId],
             default: []
         },
+        games: {
+            type: [schema.Types.ObjectId],
+            default: []
+        },
         posts: {
             type: Array,
             default: []
