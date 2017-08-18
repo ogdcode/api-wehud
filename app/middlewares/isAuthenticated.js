@@ -27,7 +27,7 @@ let isAuthenticated = app => {
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
         let decoded = app.modules.jwt.verifyToken(app, token)
-        
+                
         let query = User.findById(decoded._id)
         let promise = query.exec()
         

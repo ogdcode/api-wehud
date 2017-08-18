@@ -10,6 +10,12 @@ let routes = app => {
     router.delete('/:postId', app.actions.posts.delete)
     
     router.get('/', app.actions.posts.list)
+    
+    router.get('/messages/:userId', app.actions.posts.messages)
+    router.get('/games/:gameId', app.actions.posts.games)
+    
+    router.get('/messages/all', app.middlewares.isAuthenticated, app.actions.posts.messagesByToken)
+    
     router.patch('/like/:userId/:postId', app.actions.posts.like)
     router.patch('/dislike/:userId/:postId', app.actions.posts.dislike)
     router.patch('/like/:postId', app.middlewares.isAuthenticated, app.actions.posts.likeByToken)
