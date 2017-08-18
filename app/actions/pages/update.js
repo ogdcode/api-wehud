@@ -17,7 +17,7 @@ let update = app => {
         let query = Page.findByIdAndUpdate(pageId, body)
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return task

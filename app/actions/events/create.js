@@ -17,7 +17,9 @@ let create = app => {
             return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
         
         let event = new Event(body)
-        event.save().then(RESPONSE).catch(EXCEPTION)
+        let promise = event.save()
+        
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return task

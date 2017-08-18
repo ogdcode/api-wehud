@@ -21,7 +21,7 @@ let read = app => {
         let query = User.findById(currentUserId)
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION);
+        promise.catch(EXCEPTION).done(RESPONSE)
     };
     
     return task

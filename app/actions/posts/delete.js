@@ -16,7 +16,7 @@ let del = app => {
         let query = Post.findByIdAndRemove(postId)
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return task

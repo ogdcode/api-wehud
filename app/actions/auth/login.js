@@ -7,6 +7,23 @@ let login = app => {
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const RESPONSE = foundUser => {
+            if (!foundUser)
+                res.status(404).json({ error: errs.ERR_NOTFOUND })
+            else {
+                if (foundUser.password !== options.password)
+                    res.status(403).json({ error: errs.ERR_INVALIDCREDS })
+                else {
+                    foundUser.connected = true
+                    foundUser.save()
+                    
+                    let token = app.modules.jwt.generateToken(app, foundUser._id)
+                    foundUser.token = token
+                    
+                    res.status(200).json({ id: foundUser._id, token: token })
+                }
+            }
+        }
         
         let body = req.body
         
@@ -24,23 +41,7 @@ let login = app => {
         let query = User.findOne(options)
         let promise = query.exec()
         
-        promise.then(foundUser => {
-            if (!foundUser)
-                res.status(404).json({ error: errs.ERR_NOTFOUND })
-            else {
-                if (foundUser.password !== options.password)
-                    res.status(403).json({ error: errs.ERR_INVALIDCREDS })
-                else {
-                    foundUser.connected = true
-                    foundUser.save()
-                    
-                    let token = app.modules.jwt.generateToken(app, foundUser._id)
-                    foundUser.token = token
-                    
-                    res.status(200).json({ id: foundUser._id, token: token })
-                }
-            }
-        }).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     };
     
     return task

@@ -22,7 +22,7 @@ let create = app => {
         let planning = new Planning(body)
         let promise = planning.save()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return task

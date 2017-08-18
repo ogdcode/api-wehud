@@ -48,7 +48,9 @@ let update = app => {
                     }
                 })
                 
-                event.save().then(RESPONSE).catch(EXCEPTION)
+                let promise = event.save()
+                
+                promise.catch(EXCEPTION).done(RESPONSE)
             })
         }).catch(EXCEPTION)
     }

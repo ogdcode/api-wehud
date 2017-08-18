@@ -17,7 +17,7 @@ let del = app => {
         let query = Planning.findByIdAndRemove(planningId)
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return task

@@ -37,7 +37,7 @@ let create = app => {
     let errs = app.errors
     let Game = app.models.game
         
-    let request = function(req, res) {
+    let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
         
         let params = {
@@ -247,7 +247,7 @@ let create = app => {
         })
     }
     
-    return request
+    return task
 }
 
 module.exports = create

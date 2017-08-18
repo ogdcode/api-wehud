@@ -30,7 +30,7 @@ let games = app => {
         let query = Game.find()
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return task

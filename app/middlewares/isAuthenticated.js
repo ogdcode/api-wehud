@@ -31,7 +31,7 @@ let isAuthenticated = app => {
         let query = User.findById(decoded._id)
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     };
     
     return task

@@ -19,7 +19,7 @@ let create = app => {
         let user = new User(body)
         let promise = user.save()
                 
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     };
     
     return task

@@ -11,7 +11,7 @@ let list = app => {
         let query = Planning.find()
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return task

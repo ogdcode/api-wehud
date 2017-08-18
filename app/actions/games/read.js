@@ -21,7 +21,7 @@ let read = app => {
         let query = Game.findById(gameId)
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return request

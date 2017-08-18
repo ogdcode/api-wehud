@@ -19,7 +19,7 @@ let list = app => {
         let query = User.find()
         let promise = query.exec()
         
-        promise.then(users => {
+        promise.catch(EXCEPTION).done(users => {
             let promises = []
             users.forEach(user => {
                 user.followers.forEach(u => {
@@ -32,7 +32,7 @@ let list = app => {
             })
             
             Q.all(promises).spread(RESPONSE).catch(EXCEPTION).done()
-        }).catch(EXCEPTION)
+        })
     }
     
     return task

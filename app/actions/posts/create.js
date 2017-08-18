@@ -65,13 +65,13 @@ let create = app => {
                 let post = new Post(body)
                 let promise = post.save()
                 
-                promise.then(RESPONSE).catch(EXCEPTION)
+                promise.catch(EXCEPTION).done(RESPONSE)
             })
         } else {
             let post = new Post(body)        
             let promise = post.save()
 
-            promise.then(RESPONSE).catch(EXCEPTION)
+            promise.catch(EXCEPTION).done(RESPONSE)
         }
     }
     

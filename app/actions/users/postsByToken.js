@@ -24,7 +24,7 @@ let posts = app => {
         let query = Post.find()
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return task

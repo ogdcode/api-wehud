@@ -30,7 +30,9 @@ let bind = app => {
                     return res.status(404).json({ error: errs.ERR_NOTFOUND })
                 
                 planning.events.push(event)
-                planning.save().then(RESPONSE).catch(EXCEPTION)
+                
+                let promise = planning.save()
+                promise.catch(EXCEPTION).done(RESPONSE)
             })
         })
     }

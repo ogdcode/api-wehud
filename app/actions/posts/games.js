@@ -1,6 +1,6 @@
 'use strict'
 
-let messages = app => {
+let games = app => {
     let errs = app.errors
     let Post = app.models.post
     
@@ -19,4 +19,4 @@ let messages = app => {
     return task
 }
 
-module.exports = messages
+module.exports = games

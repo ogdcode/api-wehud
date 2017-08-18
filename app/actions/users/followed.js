@@ -16,7 +16,7 @@ let followed = app => {
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
         let followedUsers = []
-        promise.then(users => {
+        promise.catch(EXCEPTION).done(users => {
             users.forEach(user => {
                 user.followers.forEach(u => {
                     if (u._id.equals(userId)) {
@@ -32,7 +32,7 @@ let followed = app => {
             })
             
             return res.status(200).json(followedUsers)
-        }).catch(EXCEPTION)
+        })
     }
     
     return task

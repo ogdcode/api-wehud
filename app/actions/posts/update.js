@@ -20,7 +20,7 @@ let update = app => {
         let query = Post.findByIdAndUpdate(postId, body)
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return task

@@ -24,7 +24,8 @@ let unbind = app => {
                     event.remove()
                 })
                 
-                planning.save().then(RESPONSE).catch(EXCEPTION)
+                planning.save()
+                
                 res.status(204).send()
             } else
                 res.status(204).send()

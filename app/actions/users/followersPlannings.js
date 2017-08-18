@@ -19,7 +19,7 @@ let followersPlannings = app => {
         let query = User.findById(userId)
         let promise = query.exec()
         
-        promise.then(user => {
+        promise.catch(EXCEPTION).done(user => {
             let promises = []
             user.followers.forEach(follower => {
                 let query = Planning.find({ 'creator._id': follower._id })
@@ -29,7 +29,7 @@ let followersPlannings = app => {
 
             Q.all(promises).spread(RESPONSE).catch(EXCEPTION).done()
             
-        }).catch(EXCEPTION)
+        })
     }
     
     return task

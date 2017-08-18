@@ -25,7 +25,7 @@ let create = app => {
         let page = new Page(body)
         let promise = page.save()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return task

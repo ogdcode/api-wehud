@@ -17,7 +17,7 @@ let update = app => {
         let query = Planning.findByIdAndUpdate(planningId, body)
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return task

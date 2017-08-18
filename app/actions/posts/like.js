@@ -29,7 +29,7 @@ let like = app => {
         let query = Post.findById(postId)
         let promise = query.exec()
         
-        promise.then(RESPONSE).catch(EXCEPTION)
+        promise.catch(EXCEPTION).done(RESPONSE)
     }
     
     return task
