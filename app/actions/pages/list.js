@@ -35,17 +35,17 @@ let list = app => {
             })
             
             if (proms.length > 0) {
-                Q.all(proms).spread(results => {
+                Q.all(proms).then(values => {
                     let pageList = []
-                    results.forEach(result => {
+                    values.forEach(value => {
                         let found = false
                         pages.forEach(page => {
                             let hasUsersOrGames = page.users.length > 0 || page.games.length > 0
                             if (hasUsersOrGames && page.posts.length === 0 && !found) {
-                                page.posts = result
+                                page.posts = app.modules.utils.flatten(value)
                                 found = true
+                                pageList.push(page)
                             }
-                            pageList.push(page)
                         })
                     })
 

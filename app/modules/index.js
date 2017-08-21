@@ -4,7 +4,8 @@ let initialize = app => {
     app.modules = {
         dbconnect: require('./dbconnect')(app),
         encryption: require('./encryption'),
-        jwt: require('./jwt')
+        jwt: require('./jwt'),
+        utils: require('./utils')
     }
 }
 
