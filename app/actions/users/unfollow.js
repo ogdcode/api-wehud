@@ -49,7 +49,7 @@ let unfollow = app => {
                     })
                 })
                 
-                res.status(200).json({ unfollowing: user.username })
+                res.status(200).json({ follower: oldFollower, unfollowing: user.username })
             }
         })
     }

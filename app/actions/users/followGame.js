@@ -44,7 +44,7 @@ let follow = app => {
                 game.save()
                 page.save()
                 
-                res.status(200).json({ following: game.name })
+                res.status(200).json({ follower: newFollower, following: game.name })
             }
         })
     }
