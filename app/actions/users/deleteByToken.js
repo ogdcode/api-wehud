@@ -97,6 +97,18 @@ let del = app => {
                 currentUser.remove().catch(EXCEPTION)
             })
             
+            let query6 = Event.find()
+            let promise6 = query6.exec()
+            
+            promise6.then(events => {
+                events.forEach(event => {
+                    if (event.creator._id.equals(userId))
+                        event.remove().catch(EXCEPTION)
+                })
+
+                currentUser.remove().catch(EXCEPTION)
+            })
+            
             res.status(204).send()
             
         }).catch(EXCEPTION)

@@ -7,6 +7,7 @@ let del = app => {
     let Post = app.models.post
     let Page = app.models.page
     let Planning = app.models.planning
+    let Event = app.models.event
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
@@ -92,6 +93,18 @@ let del = app => {
                 plannings.forEach(planning => {
                     if (planning.creator._id.equals(userId))
                         planning.remove().catch(EXCEPTION)
+                })
+
+                currentUser.remove().catch(EXCEPTION)
+            })
+            
+            let query6 = Event.find()
+            let promise6 = query6.exec()
+            
+            promise6.then(events => {
+                events.forEach(event => {
+                    if (event.creator._id.equals(userId))
+                        event.remove().catch(EXCEPTION)
                 })
 
                 currentUser.remove().catch(EXCEPTION)

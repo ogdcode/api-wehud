@@ -4,6 +4,11 @@ let eventModel = app => {
     let schema = app.mongoose.Schema
     
     let eventSchema = schema({
+        creator: {
+            type: Object,
+            ref: 'user',
+            required: true
+        },
         title: {
             type: String,
             required: true,
@@ -24,6 +29,10 @@ let eventModel = app => {
         tag: {
             type: Number,
             default: 0
+        },
+        planning: {
+            type: String,
+            default: ""
         }
     }, { timestamps: true })
     

@@ -7,6 +7,7 @@ let update = app => {
     let Post = app.models.post
     let Page = app.models.page
     let Planning = app.models.planning
+    let Event = app.models.event
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
@@ -134,6 +135,23 @@ let update = app => {
 
                             planning.creator = newCreator
                             planning.save()
+                        }
+                    })
+                })
+                
+                let query6 = Event.find()
+                let promise6 = query6.exec()
+                
+                promise6.then(events => {
+                    plannings.forEach(event => {
+                        if (event.creator._id.equals(userId)) {
+                            let newCreator = {
+                                _id: userId,
+                                username: body.username
+                            }
+
+                            event.creator = newCreator
+                            event.save()
                         }
                     })
                 })

@@ -4,7 +4,7 @@ let router = require('express').Router()
 let bodyParser = require('body-parser').json()
 
 let routes = app => {
-    router.post('/', bodyParser, app.actions.events.create)
+    router.post('/', bodyParser, app.middlewares.isAuthenticated, app.actions.events.create)
     router.get('/:eventId', app.actions.events.read)
     router.put('/:eventId', bodyParser, app.actions.events.update)
     router.delete('/:eventId', app.actions.events.delete)

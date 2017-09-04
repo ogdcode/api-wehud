@@ -29,6 +29,9 @@ let unbind = app => {
                 if (!planning)
                     return res.status(404).json({ error: errs.ERR_NOTFOUND })
                 
+                event.planning = ""
+                event.save()
+                
                 planning.events.pull(event)
                 let promise = planning.save()
                 

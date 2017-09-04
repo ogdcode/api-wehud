@@ -15,12 +15,15 @@ let routes = app => {
     router.get('/games/:userId', app.actions.users.games)
     router.get('/plannings/:userId', app.actions.users.plannings)
     router.get('/pages/:userId', app.actions.users.pages)
+    router.get('/events/:userId', app.actions.users.events)
     
     router.get('/followed/:userId', app.actions.users.followed)
     router.get('/followed/posts/:userId', app.actions.users.followedPosts)
     router.get('/followed/plannings/:userId', app.actions.users.followedPlannings)
+    router.get('/followed/events/:userId', app.actions.users.followedEvents)
     router.get('/followers/posts/:userId', app.actions.users.followersPosts)
     router.get('/followers/plannings/:userId', app.actions.users.followersPlannings)
+    router.get('/followers/events/:userId', app.actions.users.followersEvents)
     
     router.get('/', app.middlewares.isAuthenticated, app.actions.users.readByToken)
     router.put('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.updateByToken)
@@ -29,12 +32,15 @@ let routes = app => {
     router.get('/games', app.middlewares.isAuthenticated, app.actions.users.gamesByToken)
     router.get('/plannings', app.middlewares.isAuthenticated, app.actions.users.planningsByToken)
     router.get('/pages', app.middlewares.isAuthenticated, app.actions.users.pagesByToken)
+    router.get('/events', app.middlewares.isAuthenticated, app.actions.users.eventsByToken)
     
     router.get('/followed', app.middlewares.isAuthenticated, app.actions.users.followedByToken)
     router.get('/followed/posts', app.middlewares.isAuthenticated, app.actions.users.followedPostsByToken)
     router.get('/followed/plannings', app.middlewares.isAuthenticated, app.actions.users.followedPlanningsByToken)
+    router.get('/followed/events', app.middlewares.isAuthenticated, app.actions.users.followedEvents)
     router.get('/followers/posts', app.middlewares.isAuthenticated, app.actions.users.followersPostsByToken)
     router.get('/followers/plannings', app.middlewares.isAuthenticated, app.actions.users.followersPlanningsByToken)
+    router.get('/followers/events', app.middlewares.isAuthenticated, app.actions.users.followersEvents)
     
     router.patch('/follow/:userId', bodyParser, app.middlewares.isAuthenticated, app.actions.users.follow)
     router.patch('/unfollow/:userId', app.middlewares.isAuthenticated, app.actions.users.unfollow)

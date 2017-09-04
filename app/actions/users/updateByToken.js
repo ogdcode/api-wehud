@@ -137,6 +137,23 @@ let update = app => {
                         }
                     })
                 })
+                
+                let query6 = Event.find()
+                let promise6 = query6.exec()
+                
+                promise6.then(events => {
+                    plannings.forEach(event => {
+                        if (event.creator._id.equals(userId)) {
+                            let newCreator = {
+                                _id: userId,
+                                username: body.username
+                            }
+
+                            event.creator = newCreator
+                            event.save()
+                        }
+                    })
+                })
             }
             
             res.status(204).send()

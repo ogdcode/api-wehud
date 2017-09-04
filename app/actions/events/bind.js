@@ -29,6 +29,9 @@ let bind = app => {
                 if (!planning)
                     return res.status(404).json({ error: errs.ERR_NOTFOUND })
                 
+                event.planning = body.planning
+                event.save()
+                
                 planning.events.push(event)
                 
                 let promise = planning.save()
