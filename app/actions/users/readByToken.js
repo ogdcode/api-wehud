@@ -13,12 +13,12 @@ let read = app => {
                 res.status(200).json(user)
         }
         
-        let currentUserId = req.session.user._id
+        let userId = req.params.userId
         
-        if (!currentUserId)
+        if (!userId)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
-        let query = User.findById(currentUserId)
+        let query = User.findById(userId)
         let promise = query.exec()
         
         promise.catch(EXCEPTION).done(RESPONSE)
