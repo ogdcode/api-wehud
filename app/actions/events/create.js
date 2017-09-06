@@ -15,7 +15,7 @@ let create = app => {
         if (!currentUser || !body || !body.title)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
-        if (body.startDate >= body.endDate)
+        if (body.startDateTime >= body.endDateTime)
             return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
         
         body.creator = {

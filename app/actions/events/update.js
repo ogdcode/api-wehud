@@ -21,11 +21,11 @@ let update = app => {
         promise.then(event => {
             let oldEvent = event
             
-            if (body.startDate && body.startDate <= event.endDate)
-                event.startDate = body.startDate
+            if (body.startDateTime && body.startDateTime <= event.endDateTime)
+                event.startDateTime = body.startDateTime
             
-            if (body.endDate && body.endDate >= event.startDate)
-                event.endDate = body.endDate
+            if (body.endDateTime && body.endDateTime >= event.startDateTime)
+                event.endDateTime = body.endDateTime
             
             if (body.title)
                 event.title = body.title

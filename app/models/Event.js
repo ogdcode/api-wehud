@@ -18,11 +18,11 @@ let eventModel = app => {
             type: String,
             required: true
         },
-        startDate: {
+        startDateTime: {
             type: Date,
             default: Date.now
         },
-        endDate: {
+        endDateTime: {
             type: Date,
             default: + new Date() + 24 * 60 * 60 * 1000 // The following day, in ms
         },
