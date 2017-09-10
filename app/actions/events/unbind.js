@@ -7,7 +7,7 @@ let unbind = app => {
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = () => res.status(204).send()
+        const RESPONSE = planning => res.status(200).send({ planning: planning.title, events: planning.events })
         
         let eventId = req.params.eventId
         let body = req.body
