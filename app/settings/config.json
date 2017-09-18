@@ -10,5 +10,12 @@
     "jwt": {
         "expiresIn": "1d",
         "secret": "f7c43dca678014747b183a899279d22d"
+    },
+    "admin": {
+        "smtp": "smtp.gmail.com",
+        "port": 465,
+        "ssl": true,
+        "user": "ogd28100@gmail.com",
+        "pass": "lg20130731"
     }
 }

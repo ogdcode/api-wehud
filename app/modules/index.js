@@ -5,6 +5,7 @@ let initialize = app => {
         dbconnect: require('./dbconnect')(app),
         encryption: require('./encryption'),
         jwt: require('./jwt'),
+        emailer: require('./emailer'),
         utils: require('./utils')
     }
 }
