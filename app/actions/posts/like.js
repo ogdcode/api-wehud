@@ -3,6 +3,7 @@
 let like = app => {
     let errs = app.errors
     let Post = app.models.post
+    let User = app.models.user
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
@@ -16,7 +17,16 @@ let like = app => {
                 })
                 post.likes.push(userId)
                 post.save()
-                res.status(204).send()
+                
+                let query = User.findById(userId)
+                let promise = query.exec()
+                promise.catch(EXCEPTION).done(user => {
+                    if (user.score < 100) user.score += 1
+                    else user.score += 2
+                    user.save()
+                    res.status(204).send()
+                })
+                
             }
         }
         

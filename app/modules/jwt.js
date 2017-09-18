@@ -9,7 +9,14 @@ function generateToken(app, obj) {
 }
 
 function verifyToken(app, token) {
-    return JWT.verify(token, app.config.jwt.secret)
+    let result = ""
+    try {
+        result = JWT.verify(token, app.config.jwt.secret)
+    } catch(err) {
+        result = app.errors.ERR_UNAUTHORIZED
+    }
+    
+    return result
 }
 
 module.exports.generateToken = generateToken

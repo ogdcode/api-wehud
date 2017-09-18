@@ -16,11 +16,17 @@ let like = app => {
                 })
                 post.likes.push(userId)
                 post.save()
+                
+                if (currentUser.score < 100) currentUser.score += 1
+                else currentUser.score += 2
+                currentUser.save()
+                
                 res.status(204).send()
             }
         }
         
-        let userId = req.session.user._id
+        let currentUser = req.session.user
+        let userId = currentUser._id
         let postId = req.params.postId
         
         if (!userId || !postId)

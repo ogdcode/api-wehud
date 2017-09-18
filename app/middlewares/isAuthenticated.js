@@ -7,10 +7,8 @@ let isAuthenticated = app => {
     let task = (req, res, next) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
         const RESPONSE = user => {
-            if (!user)
+            if (!user || !user.token || user.token !== token)
                 res.status(404).json({ error: errs.ERR_NOTFOUND })
-            else if (!user.token || user.token !== token)
-                res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
             else {
                 req.session = {
                     user: user,
@@ -27,6 +25,8 @@ let isAuthenticated = app => {
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
         let decoded = app.modules.jwt.verifyToken(app, token)
+        if (decoded === errs.ERR_UNAUTHORIZED)
+            return res.status(401).json({ error: errs.ERR_UNAUTHORIZED })
                 
         let query = User.findById(decoded._id)
         let promise = query.exec()

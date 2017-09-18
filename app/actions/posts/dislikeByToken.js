@@ -9,10 +9,15 @@ let like = app => {
         const RESPONSE = post => {
             post.likes.pull(userId)
             post.save()
+            
+            if (currentUser.score > 0) currentUser.score -= 1
+            currentUser.save()
+            
             res.status(204).send()
         }
         
-        let userId = req.session.user._id
+        let currentUser = req.session.user
+        let userId = currentUser._id
         let postId = req.params.postId
         
         if (!userId || !postId)
