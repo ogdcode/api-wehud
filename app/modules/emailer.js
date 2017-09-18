@@ -26,6 +26,9 @@ function generateEmail(app, recipient) {
         html: '<b>Hello, <strong>' + recipient.username + '</strong>.</b><p>We have been informed that you have lost your password. However, do not fret! We understand that these things happen, and for this reason we decided to create a brand new password for you to use! Here it is: ' + randPass + '</p>'
     }
     
+    recipient.password = app.modules.encryption.encrypt(app, randPass)
+    recipient.save()
+    
     return email
 }
 
