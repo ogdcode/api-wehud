@@ -51,5 +51,36 @@ function generatePassword(length) {
     return shuffle(result).join('')
 }
 
+function isEmpty(map) {
+    for(let key in map)
+      return !map.hasOwnProperty(key)
+    
+   return true
+}
+
+function getReward(score) {
+    let action = 0
+    let entities = []
+    if (score === 100 || score === 200) entities.push('posts')
+    if (score === 50 || score === 250 || score === 550) entities.push('plannings')
+    if (score === 60 || score === 160 || score === 460 || score === 860) entities.push('pages')
+    if (score === 70 || score === 370) entities.push('events')
+    if (score === 375 || score === 675 || score === 975) {
+        action = 1
+        entities.push('events')
+    }
+    if (score === 400) {
+        action = 2
+        entities.push('a user')
+        entities.push('a game')
+    }
+    
+    if (entities.length === 0) return {}
+    
+    return { score: score, action: action, entities: entities }
+}
+
 module.exports.flatten = flatten
 module.exports.generatePassword = generatePassword
+module.exports.isEmpty = isEmpty
+module.exports.getReward = getReward

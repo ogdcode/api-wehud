@@ -17,11 +17,17 @@ let like = app => {
                 post.likes.push(userId)
                 post.save()
                 
-                if (currentUser.score < 100) currentUser.score += 1
-                else currentUser.score += 2
-                currentUser.save()
-                
-                res.status(204).send()
+                let reward = {}
+                    if (currentUser.score < 100) {
+                        currentUser.score += 1
+                        if (currentUser.score >= 100) reward = app.modules.utils.getReward(100)
+                    }
+                    else currentUser.score += 2
+                    currentUser.save()
+                    
+                    if (!app.modules.utils.isEmpty(reward)) return res.status(200).json(reward)
+                    
+                    res.status(204).send()
             }
         }
         

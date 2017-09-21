@@ -21,9 +21,16 @@ let like = app => {
                 let query = User.findById(userId)
                 let promise = query.exec()
                 promise.catch(EXCEPTION).done(user => {
-                    if (user.score < 100) user.score += 1
+                    let reward = {}
+                    if (user.score < 100) {
+                        user.score += 1
+                        if (user.score >= 100) reward = app.modules.utils.getReward(100)
+                    }
                     else user.score += 2
                     user.save()
+                    
+                    if (!app.modules.utils.isEmpty(reward)) return res.status(200).json(reward)
+                    
                     res.status(204).send()
                 })
                 

@@ -16,7 +16,7 @@ let update = app => {
         
         if (!body || !postId)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
-        
+                
         let query = Post.findByIdAndUpdate(postId, body)
         let promise = query.exec()
         

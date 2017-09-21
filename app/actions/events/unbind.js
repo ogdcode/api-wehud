@@ -4,6 +4,7 @@ let unbind = app => {
     let errs = app.errors
     let Event = app.models.event
     let Planning = app.models.planning
+    let User = app.models.user
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
@@ -36,6 +37,18 @@ let unbind = app => {
                 let promise = planning.save()
                 
                 promise.catch(EXCEPTION).done(RESPONSE)
+                
+                let query2 = User.findById(event.creator._id)
+                let promise2 = query2.exec()
+                
+                promise2.catch(EXCEPTION).done(creator => {
+                    if (creator.score >= 375) {
+                        if (creator.score >= 975) creator.score -= 6
+                        else if (creator.score >= 675) creator.score -= 3
+                        else creator.score -= 1
+                        creator.save()
+                    }
+                })
             })
         })
     }

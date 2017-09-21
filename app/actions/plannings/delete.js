@@ -4,12 +4,16 @@ let del = app => {
     let errs = app.errors
     let Planning = app.models.planning
     let Event = app.models.event
+    let User = app.models.user
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
         const RESPONSE = planning => {
             let query = Event.find({ planning: planning.title })
             let promise = query.exec()
+            
+            let query2 = User.findById(planning.creator._id)
+            let promise2 = query2.exec()
             
             promise.catch(EXCEPTION).done(events => {
                 events.forEach(event => {
@@ -20,6 +24,14 @@ let del = app => {
                 planning.remove()
                 
                 res.status(204).send()
+            })
+            
+            promise2.catch(EXCEPTION).done(creator => {
+                if (creator.score > 0 && creator.score < 50) creator.score -= 1
+                if (creator.score >= 50 && creator.score < 200) creator.score -= 2
+                if (creator.score >= 200 && creator.score < 500) creator.score -= 3
+                else creator.score -= 5
+                creator.save()
             })
         }
         

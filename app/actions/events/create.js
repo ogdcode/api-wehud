@@ -7,7 +7,20 @@ let create = app => {
     
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = event => res.status(201).json({ _id: event._id, title: event.title })
+        const RESPONSE = event => {
+            let reward = {}
+            if (currentUser.score < 70) {
+                currentUser.score += 1
+                if (currentUser.score >= 70) reward = app.modules.utils.getReward(70)
+            } 
+            else if (currentUser.score >= 70 && currentUser.score < 370) {
+                currentUser.score += 2
+                if (currentUser.score >= 370) reward = app.modules.utils.getReward(370)
+            }
+            else currentUser.score += 3
+            
+            res.status(201).json({ _id: event._id, title: event.title, reward: reward })
+        }
         
         let currentUser = req.session.user
         let body = req.body

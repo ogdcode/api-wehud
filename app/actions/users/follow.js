@@ -32,6 +32,13 @@ let follow = app => {
             if (!user || !page)
                 res.status(404).json({ error: errs.ERR_NOTFOUND })
             else {
+                let reward = {}
+                if (currentUser.score < 400) {
+                    currentUser.score += 2
+                    if (currentUser.score >= 400) reward = app.modules.utils.getReward(400)
+                }
+                else currentUser.score += 3
+                
                 let newFollower = {
                     _id: currentUser._id,
                     username: currentUser.username,
@@ -41,10 +48,11 @@ let follow = app => {
                 user.followers.push(newFollower)
                 page.users.push(userId)
                 
+                currentUser.save()
                 user.save()
                 page.save()
                 
-                res.status(200).json({ follower: newFollower, following: user.username })
+                res.status(200).json({ follower: newFollower, following: user.username, reward: reward })
             }
         })
     }

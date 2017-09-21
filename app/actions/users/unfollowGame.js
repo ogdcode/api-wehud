@@ -31,11 +31,16 @@ let unfollow = app => {
             if (!game || !pages)
                 res.status(404).json({ error: errs.ERR_NOTFOUND })
             else {
+                if (currentUser.score <= 300) currentUser.score -= 2
+                else currentUser.score -= 3
+                
                 let oldFollower = {
                     _id: currentUser._id,
                     username: currentUser.username,
                     email: currentUser.email
                 }
+                
+                currentUser.save()
                 
                 game.followers.pull(oldFollower)
                 game.save()

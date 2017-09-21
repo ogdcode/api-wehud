@@ -11,10 +11,15 @@ let create = app => {
     let task = (req, res) => {
         const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
         const RESPONSE = post => {
-            if (currentUser.score < 200) currentUser.score += 1
+            let reward = {}
+            if (currentUser.score < 200) {
+                currentUser.score += 1
+                if (currentUser.score >= 200) reward = app.modules.utils.getReward(200)
+            }
             else currentUser.score += 2
             currentUser.save()
-            res.status(201).json({ _id: post._id })
+            
+            res.status(201).json({ _id: post._id, reward: reward })
         }
         
         let body = req.body
@@ -32,6 +37,8 @@ let create = app => {
         
         // The body.receiver variable comes as a unique username.
         if (body.receiver) {
+            if (currentUser.score <= 200) currentUser.score += 1
+            else currentUser.score += 2
             if (body.receiver === currentUser.username)
                 return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
             
@@ -42,6 +49,8 @@ let create = app => {
         }
         
         if (body.game) {
+            if (currentUser.score <= 200) currentUser.score += 1
+            else currentUser.score += 2
             let query = Game.findOne({ name: body.game })
             let promise = query.exec()
             
