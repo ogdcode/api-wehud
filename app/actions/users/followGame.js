@@ -35,7 +35,7 @@ let follow = app => {
                 let reward = {}
                 if (currentUser.score < 400) {
                     currentUser.score += 2
-                    if (currentUser.score >= 400) reward = app.modules.utils.getReward(400)
+                    if (currentUser.score >= 400) reward = app.modules.utils.getReward(400, 3)
                 } else currentUser.score += 3
                 
                 let newFollower = {

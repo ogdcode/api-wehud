@@ -20,7 +20,7 @@ let like = app => {
                 let reward = {}
                     if (currentUser.score < 100) {
                         currentUser.score += 1
-                        if (currentUser.score >= 100) reward = app.modules.utils.getReward(100)
+                        if (currentUser.score >= 100) reward = app.modules.utils.getReward(100, 2)
                     }
                     else currentUser.score += 2
                     currentUser.save()

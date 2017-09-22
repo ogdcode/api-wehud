@@ -10,19 +10,19 @@ let create = app => {
             let reward = {}
             if (currentUser.score < 60) {
                 currentUser.score += 1
-                if (currentUser.score >= 60) reward = app.modules.utils.getReward(60)
+                if (currentUser.score >= 60) reward = app.modules.utils.getReward(60, 2)
             }
             else if (currentUser.score >= 60 && currentUser.score < 160) {
                 currentUser.score += 2
-                if (currentUser.score >= 160) reward = app.modules.utils.getReward(160)
+                if (currentUser.score >= 160) reward = app.modules.utils.getReward(160, 3)
             }
             else if (currentUser.score >= 160 && currentUser.score < 460) {
                 currentUser.score += 3
-                if (currentUser.score >= 460) reward = app.modules.utils.getReward(460)
+                if (currentUser.score >= 460) reward = app.modules.utils.getReward(460, 4)
             }
             else if (currentUser.score >= 460 && currentUser.score < 860) {
                 currentUser.score += 4
-                if (currentUser.score >= 860) reward = app.modules.utils.getReward(860)
+                if (currentUser.score >= 860) reward = app.modules.utils.getReward(860, 5)
             }
             else currentUser.score += 5
             currentUser.save()

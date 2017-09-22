@@ -11,11 +11,11 @@ let create = app => {
             let reward = {}
             if (currentUser.score < 70) {
                 currentUser.score += 1
-                if (currentUser.score >= 70) reward = app.modules.utils.getReward(70)
+                if (currentUser.score >= 70) reward = app.modules.utils.getReward(70, 2)
             } 
             else if (currentUser.score >= 70 && currentUser.score < 370) {
                 currentUser.score += 2
-                if (currentUser.score >= 370) reward = app.modules.utils.getReward(370)
+                if (currentUser.score >= 370) reward = app.modules.utils.getReward(370, 3)
             }
             else currentUser.score += 3
             
