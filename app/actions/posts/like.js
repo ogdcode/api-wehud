@@ -12,7 +12,7 @@ let like = app => {
                 res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
             else {
                 post.likes.forEach(like => {
-                    if (like._id.equals(userId))
+                    if (like.equals(userId))
                         return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
                 })
                 post.likes.push(userId)

@@ -16,19 +16,24 @@ let list = app => {
         promise.then(pages => {
             let proms = []
             pages.forEach(page => {
+                let promises = []
                 if (page.users.length > 0) {
-                    let promises = []
                     page.users.forEach(userId => {
                         let query = Post.find({ 'publisher._id': userId })
                         let promise = query.exec()
                         promises.push(promise)
                     })
+                }
+                
+                if (page.games.length > 0) {
                     page.games.forEach(gameId => {
                         let query = Post.find({ 'game._id': gameId })
                         let promise = query.exec()
                         promises.push(promise)
                     })
-                    
+                }
+                
+                if (promises.length > 0) {
                     let prom = Q.all(promises)
                     proms.push(prom)
                 }

@@ -7,7 +7,8 @@ let actions = app => {
         update: require('./update')(app),
         delete: require('./delete')(app),
         
-        list: require('./list')(app)
+        list: require('./list')(app),
+        posts: require('./posts')(app)
     }
     
     return paths
