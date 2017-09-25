@@ -9,21 +9,24 @@ let create = app => {
     let Game = app.models.game
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = post => {
-            let reward = {}
-            if (currentUser.score < 200) {
-                currentUser.score += 1
-                if (currentUser.score >= 200) reward = app.modules.utils.getReward(200, 2)
-            }
-            else currentUser.score += 2
+            let entity = app.config.entity
+            let updated = app.modules.utils.updateScore(currentUser.score, 
+                                                        entity.thresholds.posts, 
+                                                        entity.actions.posts[0], 
+                                                        [entity.name.posts], 
+                                                        entity.points.posts[1])
+            currentUser.score = updated.score.total
+            currentUser.score += additionalScore
             currentUser.save()
             
-            res.status(201).json({ _id: post._id, reward: reward })
+            return res.status(201).json({ _id: post._id, reward: updated.reward })
         }
         
         let body = req.body
         let currentUser = req.session.user
+        let additionalScore = 0
         
         if (!body || !body.text || !currentUser)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
@@ -37,8 +40,8 @@ let create = app => {
         
         // The body.receiver variable comes as a unique username.
         if (body.receiver) {
-            if (currentUser.score <= 200) currentUser.score += 1
-            else currentUser.score += 2
+            if (currentUser.score <= 200) additionalScore += 1
+            else additionalScore += 2
             if (body.receiver === currentUser.username)
                 return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
             
@@ -49,8 +52,8 @@ let create = app => {
         }
         
         if (body.game) {
-            if (currentUser.score <= 200) currentUser.score += 1
-            else currentUser.score += 2
+            if (currentUser.score <= 200) additionalScore += 1
+            else additionalScore += 2
             let query = Game.findOne({ name: body.game })
             let promise = query.exec()
             

@@ -6,35 +6,37 @@ let like = app => {
     let User = app.models.user
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = post => {
             if (userId.equals(post.publisher._id))
-                res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
-            else {
-                post.likes.forEach(like => {
-                    if (like.equals(userId))
-                        return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
-                })
-                post.likes.push(userId)
-                post.save()
+                return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
+            
+            post.likes.forEach(like => {
+                if (like.equals(userId))
+                    return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
+            })
+            post.likes.push(userId)
+            post.save()
+
+            let query = User.findById(userId)
+            let promise = query.exec()
+            promise.catch(EXCEPTION).done(user => {
+                let utils = app.modules.utils
+                let entity = app.config.entity
                 
-                let query = User.findById(userId)
-                let promise = query.exec()
-                promise.catch(EXCEPTION).done(user => {
-                    let reward = {}
-                    if (user.score < 100) {
-                        user.score += 1
-                        if (user.score >= 100) reward = app.modules.utils.getReward(100, 2)
-                    }
-                    else user.score += 2
-                    user.save()
-                    
-                    if (!app.modules.utils.isEmpty(reward)) return res.status(200).json(reward)
-                    
-                    res.status(204).send()
-                })
-                
-            }
+                let updated = utils.updateScore(user.score, 
+                                                entity.thresholds.posts, 
+                                                entity.actions.posts[0], 
+                                                [entity.name.posts], 
+                                                entity.points.posts[0])
+                user.score = updated.score.total
+                user.save()
+
+                if (!utils.isEmpty(updated.reward)) 
+                    return res.status(200).json(updated.reward)
+
+                return res.status(204).send()
+            })
         }
         
         let userId = req.params.userId

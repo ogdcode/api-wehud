@@ -15,10 +15,9 @@ let app = EXPRESS();
 }());
 
 (function start() {
-    let port = app.config.port
-    let dbname = app.config.db.name
-    let dbuser = app.config.db.user
+    let config = app.config
+    let db = config.db
 
-    console.log('Connecting to ' + dbname + ' as ' + dbuser)
-    app.listen(port, '0.0.0.0')
+    console.log('Connecting to ' + db.name + ' as ' + db.user)
+    app.listen(config.port, '0.0.0.0')
 }());

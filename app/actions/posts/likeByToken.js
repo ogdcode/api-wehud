@@ -5,7 +5,7 @@ let like = app => {
     let Post = app.models.post
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = post => {
             if (userId.equals(post.publisher._id))
                 return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
@@ -18,17 +18,21 @@ let like = app => {
             post.likes.push(userId)
             post.save()
 
-            let reward = {}
-            if (currentUser.score < 100) {
-                currentUser.score += 1
-                if (currentUser.score >= 100) reward = app.modules.utils.getReward(100, 2)
-            }
-            else currentUser.score += 2
+            let utils = app.modules.utils
+            let entity = app.config.entity
+
+            let updated = utils.updateScore(currentUser.score, 
+                                            entity.thresholds.posts, 
+                                            entity.actions.posts[0], 
+                                            [entity.name.posts], 
+                                            entity.points.posts[0])
+            currentUser.score = updated.score.total
             currentUser.save()
 
-            if (!app.modules.utils.isEmpty(reward)) return res.status(200).json(reward)
+            if (!utils.isEmpty(updated.reward)) 
+                return res.status(200).json(updated.reward)
 
-            res.status(204).send()
+            return res.status(204).send()
         }
         
         let currentUser = req.session.user

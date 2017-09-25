@@ -7,8 +7,30 @@ let bind = app => {
     let User = app.models.user
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = planning => res.status(200).send({ planning: planning.title, events: planning.events })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
+        const RESPONSE = planning => {
+            
+            let query = User.findById(event.creator._id)
+            let promise = query.exec()
+            
+            promise.catch(EXCEPTION).done(creator => {
+                let entity = app.config.entity
+                let updated = app.modules.utils.updateScore(creator.score, 
+                                                            entity.thresholds.events,
+                                                            entity.actions.events[1],
+                                                            [entity.name.events],
+                                                            entity.points.events[1])
+                
+                creator.score = updated.score.total
+                creator.save()
+                
+                return res.status(200).send({ 
+                    planning: planning.title, 
+                    events: planning.events, 
+                    reward: updated.reward 
+                })
+            }) 
+        }
         
         let eventId = req.params.eventId
         let body = req.body
@@ -36,19 +58,7 @@ let bind = app => {
                 planning.events.push(event)
                 
                 let promise = planning.save()
-                promise.catch(EXCEPTION).done(RESPONSE)
-                
-                let query2 = User.findById(event.creator._id)
-                let promise2 = query2.exec()
-                
-                promise2.catch(EXCEPTION).done(creator => {
-                    if (creator.score >= 375) {
-                        if (creator.score >= 975) creator.score += 6
-                        else if (creator.score >= 675) creator.score += 3
-                        else creator.score += 1
-                        creator.save()
-                    }
-                })
+                promise.then(RESPONSE).catch(EXCEPTION)
             })
         })
     }

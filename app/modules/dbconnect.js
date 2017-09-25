@@ -1,17 +1,15 @@
 'use strict'
 
 let initialize = app => {
-    let config = app.config
+    let db = app.config.db
     
     let map = {
-        '<user>': config.db.user,
-        '<pass>': config.db.pass,
-        '<name>': config.db.name
+        '<user>': db.user,
+        '<pass>': db.pass,
+        '<name>': db.name
     }
-    
-    let path = config.db.path
-    
-    return replaceMultiple(path, map);
+        
+    return replaceMultiple(db.path, map);
 };
 
 function replaceMultiple(str, map) {

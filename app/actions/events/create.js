@@ -3,23 +3,25 @@
 let create = app => {
     let errs = app.errors
     let Event = app.models.event
-    let Planning = app.models.planning
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = event => {
-            let reward = {}
-            if (currentUser.score < 70) {
-                currentUser.score += 1
-                if (currentUser.score >= 70) reward = app.modules.utils.getReward(70, 2)
-            } 
-            else if (currentUser.score >= 70 && currentUser.score < 370) {
-                currentUser.score += 2
-                if (currentUser.score >= 370) reward = app.modules.utils.getReward(370, 3)
-            }
-            else currentUser.score += 3
+            let entity = app.config.entity
+            let updated = app.modules.utils.updateScore(currentUser.score, 
+                                                        entity.thresholds.events, 
+                                                        entity.actions.events[0], 
+                                                        [entity.name.events], 
+                                                        entity.points.events[0])
             
-            res.status(201).json({ _id: event._id, title: event.title, reward: reward })
+            currentUser.score = updated.score.total
+            currentUser.save()
+            
+            return res.status(201).json({ 
+                _id: event._id, 
+                title: event.title, 
+                reward: updated.reward 
+            })
         }
         
         let currentUser = req.session.user
@@ -37,6 +39,7 @@ let create = app => {
         }
         
         if (body.planning) {
+            let Planning = app.models.planning
             let query = Planning.findOne({ title: body.planning })
             let promise = query.exec()
             

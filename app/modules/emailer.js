@@ -3,30 +3,37 @@
 const NODEMAILER = require('nodemailer')
 
 function getTransport(app) {
+    let admin = app.config.admin
+    
     let transporter = NODEMAILER.createTransport({
-        host: app.config.admin.smtp,
-        port: app.config.admin.port,
-        secure: app.config.admin.ssl,
+        host: admin.smtp,
+        port: admin.port,
+        secure: admin.ssl,
         auth: {
-            user: app.config.admin.user,
-            pass: app.config.admin.pass
+            user: admin.user,
+            pass: admin.pass
         }
     })
     
     return transporter
 }
 
-function generateEmail(app, recipient) {    
-    let randPass = app.modules.utils.generatePassword(12)
+function generateEmail(app, recipient) {
+    let admin = app.config.admin
+    let modules = app.modules
+    let utils = modules.utils
+    let encryption = modules.encryption
+    
+    let randPass = utils.generatePassword(admin.len)
     let email = {
-        from: app.config.admin.user,
+        from: admin.user,
         to: recipient.email,
         subject: 'Password reminder',
-        text: 'Hello, ' + recipient.username + '.We have been informed that you have lost your password. However, do not fret! We understand that these things happen, and for this reason we decided to create a brand new password for you to use! Here it is: ' + randPass,
+        text: 'Hello, ' + recipient.username + '. We have been informed that you have lost your password. However, do not fret! We understand that these things happen, and for this reason we decided to create a brand new password for you to use! Here it is: ' + randPass,
         html: '<b>Hello, <strong>' + recipient.username + '</strong>.</b><p>We have been informed that you have lost your password. However, do not fret! We understand that these things happen, and for this reason we decided to create a brand new password for you to use! Here it is: ' + randPass + '</p>'
     }
     
-    recipient.password = app.modules.encryption.encrypt(app, randPass)
+    recipient.password = encryption.encrypt(app, randPass)
     recipient.save()
     
     return email

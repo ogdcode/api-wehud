@@ -21,9 +21,7 @@ function generateArray(length, set) {
 
 function shuffle(arr) {
     let result = []
-    while (arr.length) {
-        result = result.concat(arr.splice(rand[arr.length - 1]))
-    }
+    while (arr.length > 0) result = result.concat(arr.splice(rand(arr.length - 1)))
     
     return result
 }
@@ -31,12 +29,10 @@ function shuffle(arr) {
 function flatten(arr) {
     let ret = []
     for(let i = 0; i < arr.length; ++i) {
-        if(Array.isArray(arr[i])) {
-            ret = ret.concat(flatten(arr[i]))
-        } else {
-            ret.push(arr[i])
-        }
+        if(Array.isArray(arr[i])) ret = ret.concat(flatten(arr[i]))
+        else ret.push(arr[i])
     }
+    
     return ret
 }
 
@@ -52,35 +48,33 @@ function generatePassword(length) {
 }
 
 function isEmpty(map) {
-    for(let key in map)
-      return !map.hasOwnProperty(key)
+    for(let key in map) return !map.hasOwnProperty(key)
     
    return true
 }
 
-function getReward(score, bonus) {
-    let action = 0
-    let entities = []
-    if (score === 100 || score === 200) entities.push('Posts')
-    if (score === 50 || score === 250 || score === 550) entities.push('Plannings')
-    if (score === 60 || score === 160 || score === 460 || score === 860) entities.push('Pages')
-    if (score === 70 || score === 370) entities.push('Events')
-    if (score === 375 || score === 675 || score === 975) {
-        action = 1
-        entities.push('Event')
-    }
-    if (score === 400) {
-        action = 2
-        entities.push('User')
-        entities.push('Game')
-    }
+function updateScore(score, thresholds, action, entities, points) {
+    let threshold = 0
+    let i = 0
     
-    if (entities.length === 0) return {}
-    
-    return { score: score, action: action, entities: entities, bonus: bonus }
+    while (i < thresholds.length && thresholds[i] <= score) threshold = thresholds[i++]
+    score += points[i]
+    let oldThreshold = threshold
+    while (i < thresholds.length && thresholds[i] <= score) threshold = thresholds[i++]
+    if (oldThreshold === threshold) return { score: { total: score }, reward: {} }
+    return { score: { total: score }, 
+             reward: { 
+                score: threshold, 
+                action: action, 
+                entities: entities, 
+                points: points[i]
+             }
+           }
 }
 
-module.exports.flatten = flatten
-module.exports.generatePassword = generatePassword
-module.exports.isEmpty = isEmpty
-module.exports.getReward = getReward
+module.exports = {
+    flatten: flatten,
+    generatePassword: generatePassword,
+    isEmpty: isEmpty,
+    updateScore: updateScore
+}
