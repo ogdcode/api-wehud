@@ -75,7 +75,7 @@ function updateScore(score, thresholds, action, entities, points, mode) {
                    }
         case 1:
             score -= points[i]
-            return { score: -score }
+            return { score: score }
         default:
             break
     }
