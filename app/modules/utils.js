@@ -57,10 +57,10 @@ function updateScore(score, thresholds, action, entities, points, mode) {
     let threshold = 0
     let i = 0
     while (i < thresholds.length && thresholds[i] <= score) threshold = thresholds[i++]
-    score += points[i]
     
     switch (mode) {
         case 0:
+            score += points[i]
             let oldThreshold = threshold
             while (i < thresholds.length && thresholds[i] <= score) threshold = thresholds[i++]
             if (oldThreshold === threshold) return { score: { total: score }, reward: {} }
@@ -74,6 +74,7 @@ function updateScore(score, thresholds, action, entities, points, mode) {
                      }
                    }
         case 1:
+            score -= points[i]
             return { score: -score }
         default:
             break
