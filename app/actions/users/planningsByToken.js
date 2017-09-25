@@ -5,7 +5,7 @@ let plannings = app => {
     let Planning = app.models.planning
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = plannings => {
             let results = []
             plannings.forEach(planning => {
@@ -13,7 +13,7 @@ let plannings = app => {
                     results.push(planning)
             })
             
-            res.status(200).json(results)
+            return res.status(200).json(results)
         }
         
         let userId = req.session.user._id

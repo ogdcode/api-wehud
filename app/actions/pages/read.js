@@ -8,29 +8,36 @@ let read = app => {
     let Post = app.models.post
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = page => {
             if (!page)
-                res.status(404).json({ error: errs.ERR_NOTFOUND })
-            else if (page.users.length > 0) {
-                let promises = []
+                return res.status(404).json({ error: errs.ERR_NOTFOUND })
+            
+            let promises = []
+            if (page.users.length > 0) {
                 page.users.forEach(userId => {
                     let query = Post.find({ 'publisher._id': userId })
                     let promise = query.exec()
                     promises.push(promise)
                 })
+            }
+            
+            if (page.games.length > 0) {
                 page.games.forEach(gameId => {
                     let query = Post.find({ 'game._id': gameId })
                     let promise = query.exec()
                     promises.push(promise)
                 })
-
+            }
+            
+            if (promises.length > 0)
                 Q.all(promises).spread(posts => {
                     page.posts = posts
                     page.save()
-                    res.status(200).json(page)
+                    
+                    return res.status(200).json(page)
                 }).catch(EXCEPTION).done()
-            } else res.status(200).json(page)
+            else return res.status(200).json(page)
         }
         
         let pageId = req.params.pageId

@@ -5,18 +5,17 @@ let isAuthenticated = app => {
     let User = app.models.user
     
     let task = (req, res, next) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = user => {
             if (!user || !user.token || user.token !== token)
-                res.status(404).json({ error: errs.ERR_NOTFOUND })
-            else {
-                req.session = {
-                    user: user,
-                    token: token
-                }
-                
-                next()
+                return res.status(404).json({ error: errs.ERR_NOTFOUND })
+            
+            req.session = {
+                user: user,
+                token: token
             }
+
+            next()
         }
         
         let token = req.query.token

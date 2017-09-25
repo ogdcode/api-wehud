@@ -38,7 +38,7 @@ let create = app => {
     let Game = app.models.game
         
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         
         let params = {
             fields: CRITERIA,
@@ -243,7 +243,7 @@ let create = app => {
                     newGame.save().catch(EXCEPTION)
             })
             
-            res.status(204).send()
+            return res.status(204).send()
         })
     }
     

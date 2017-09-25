@@ -39,5 +39,7 @@ function generateEmail(app, recipient) {
     return email
 }
 
-module.exports.getTransport = getTransport
-module.exports.generateEmail = generateEmail
+module.exports = {
+    getTransport: getTransport,
+    generateEmail: generateEmail
+}

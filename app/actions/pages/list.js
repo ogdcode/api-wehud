@@ -8,7 +8,7 @@ let list = app => {
     let Post = app.models.post
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         
         let query = Page.find()
         let promise = query.exec()
@@ -54,9 +54,9 @@ let list = app => {
                         })
                     })
 
-                    res.status(200).json(pageList)
+                    return res.status(200).json(pageList)
                 })
-            } else res.status(200).json(pages)
+            } else return res.status(200).json(pages)
         }).catch(EXCEPTION)
     }
     

@@ -22,5 +22,7 @@ function decrypt(app, text) {
     return deciphered
 }
 
-module.exports.encrypt = encrypt
-module.exports.decrypt = decrypt
+module.exports = {
+    encrypt: encrypt,
+    decrypt: decrypt
+}

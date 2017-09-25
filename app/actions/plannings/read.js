@@ -5,8 +5,8 @@ let read = app => {
     let Planning = app.models.planning
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = planning => res.status(200).json(planning)
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
+        const RESPONSE = planning => { return res.status(200).json(planning) }
         
         let planningId = req.params.planningId
         

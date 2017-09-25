@@ -6,8 +6,8 @@ let update = app => {
     let Planning = app.models.planning
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = () => res.status(204).send()
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
+        const RESPONSE = () => { return res.status(204).send() }
         
         let body = req.body
         let eventId = req.params.eventId

@@ -12,7 +12,7 @@ let create = app => {
                                                         entity.thresholds.events, 
                                                         entity.actions.events[0], 
                                                         [entity.name.events], 
-                                                        entity.points.events[0])
+                                                        entity.points.events[0], 0)
             
             currentUser.score = updated.score.total
             currentUser.save()

@@ -18,6 +18,7 @@ function verifyToken(app, token) {
     
     return result
 }
-
-module.exports.generateToken = generateToken
-module.exports.verifyToken = verifyToken
+module.exports = {
+    generateToken: generateToken,
+    verifyToken: verifyToken
+}

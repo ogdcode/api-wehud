@@ -8,7 +8,7 @@ let pages = app => {
     let Post = app.models.post
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = pages => {
             let results = []
             let proms = []
@@ -49,9 +49,9 @@ let pages = app => {
                         })
                     })
 
-                    res.status(200).json(pageList)
+                    return res.status(200).json(pageList)
                 })
-            } else res.status(200).json(results)
+            } else return res.status(200).json(results)
         }
         
         let userId = req.session.user._id

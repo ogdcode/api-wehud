@@ -6,7 +6,7 @@ let update = app => {
     let Event = app.models.event
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = planning => {
             if (body.title) {
                 let query = Event.find({ planning: planning.title })
@@ -18,9 +18,9 @@ let update = app => {
                         event.save()
                     })
                     
-                    res.status(204).send()
+                    return res.status(204).send()
                 })
-            } else res.status(204).send()
+            } else return res.status(204).send()
         }
         
         let planningId = req.params.planningId

@@ -5,8 +5,8 @@ let list = app => {
     let User = app.models.user
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = users => res.status(200).json(users)
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
+        const RESPONSE = users => { return res.status(200).json(users) }
         
         let query = User.find()
         let promise = query.exec()

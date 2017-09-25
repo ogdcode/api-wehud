@@ -42,12 +42,15 @@ let follow = app => {
             page.users.push(userId)
             
             let entity = app.config.entity
+            
+            let userSubstr = entity.name.users.substring(0, entity.name.users.length - 1)
+            let gameSubstr = entity.name.games.substring(0, entity.name.games.length - 1)
+            
             let updated = app.modules.utils.updateScore(currentUser.score, 
                                                         entity.thresholds.users, 
                                                         entity.actions.users[1], 
-                                                        [entity.name.users.substring(
-                                                            0, entity.name.users.length - 1)],
-                                                        entity.points.users)
+                                                        [userSubstr, gameSubstr],
+                                                        entity.points.users, 0)
             currentUser.score = updated.score.total
             currentUser.save()
             user.save()

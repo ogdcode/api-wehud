@@ -28,7 +28,7 @@ let like = app => {
                                                 entity.thresholds.posts, 
                                                 entity.actions.posts[0], 
                                                 [entity.name.posts], 
-                                                entity.points.posts[0])
+                                                entity.points.posts[0], 0)
                 user.score = updated.score.total
                 user.save()
 

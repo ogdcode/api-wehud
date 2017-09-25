@@ -9,7 +9,7 @@ let update = app => {
     let Planning = app.models.planning
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         
         let body = req.body
         let userId = req.session.user._id
@@ -156,7 +156,7 @@ let update = app => {
                 })
             }
             
-            res.status(204).send()
+            return res.status(204).send()
             
         }).catch(EXCEPTION)
     }

@@ -5,8 +5,8 @@ let update = app => {
     let Post = app.models.post
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = () => res.status(204).send()
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
+        const RESPONSE = () => { return res.status(204).send() }
         
         if (body.publisher || body.receiver)
             return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })

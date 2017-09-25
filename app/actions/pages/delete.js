@@ -5,11 +5,19 @@ let del = app => {
     let Page = app.models.page
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = () => {
             let currentUser = req.session.user
+            let entity = app.config.entity
+            let updated = app.modules.utils.updateScore(currentUser.score,
+                                                        entity.thresholds.pages,
+                                                        entity.actions.pages[0],
+                                                        [entity.name.pages],
+                                                        entity.points.pages, 1)
+            currentUser.score = updated.score
             currentUser.save()
-            res.status(204).send()
+            
+            return res.status(204).send()
         }
         
         let pageId = req.params.pageId

@@ -8,7 +8,7 @@ let del = app => {
     
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         
         let eventId = req.params.eventId
         
@@ -35,13 +35,16 @@ let del = app => {
                 
                 event.remove()
                 
-                res.status(204).send()
+                return res.status(204).send()
             })
             
             promise2.catch(EXCEPTION).done(creator => {
-                if (creator.score > 0 && creator.score < 50) creator.score -= 1
-                if (creator.score >= 50 && creator.score < 300) creator.score -= 2
-                else creator.score -= 3
+                let entity = app.config.entity
+                let updated = app.modules.utils.updateScore(creator.score, 
+                                                            entity.thresholds.events, entity.actions.events[0], 
+                                                            [entity.name.events], 
+                                                            entity.points.events[0], 1)
+                creator.score = updated.score
                 creator.save()
             })
         }).catch(EXCEPTION)

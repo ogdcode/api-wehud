@@ -8,7 +8,7 @@ let posts = app => {
     let Post = app.models.post
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         
         let pageId = req.params.pageId
         if (!pageId)
@@ -41,9 +41,12 @@ let posts = app => {
                         page.posts = app.modules.utils.flatten(value)
                     })
 
-                    res.status(200).json({ _id: page._id, posts: page.posts })
+                    return res.status(200).json({ 
+                        _id: page._id, 
+                        posts: page.posts 
+                    })
                 })
-            } else res.status(204).send()
+            } else return res.status(204).send()
         })
     }
     

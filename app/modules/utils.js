@@ -53,23 +53,33 @@ function isEmpty(map) {
    return true
 }
 
-function updateScore(score, thresholds, action, entities, points) {
+function updateScore(score, thresholds, action, entities, points, mode) {
     let threshold = 0
     let i = 0
     
-    while (i < thresholds.length && thresholds[i] <= score) threshold = thresholds[i++]
-    score += points[i]
-    let oldThreshold = threshold
-    while (i < thresholds.length && thresholds[i] <= score) threshold = thresholds[i++]
-    if (oldThreshold === threshold) return { score: { total: score }, reward: {} }
-    return { score: { total: score }, 
-             reward: { 
-                score: threshold, 
-                action: action, 
-                entities: entities, 
-                points: points[i]
-             }
-           }
+    switch (mode) {
+        case 0:
+            while (i < thresholds.length && thresholds[i] <= score) threshold = thresholds[i++]
+            score += points[i]
+            let oldThreshold = threshold
+            while (i < thresholds.length && thresholds[i] <= score) threshold = thresholds[i++]
+            if (oldThreshold === threshold) return { score: { total: score }, reward: {} }
+            
+            return { score: { total: score }, 
+                     reward: { 
+                        score: threshold, 
+                        action: action, 
+                        entities: entities, 
+                        points: points[i]
+                     }
+                   }
+        case 1:
+            while (i < thresholds.length && thresholds[i] <= score) threshold = thresholds[i++]
+            score -= points[i]
+            return { score: score }
+        default:
+            break
+    }
 }
 
 module.exports = {

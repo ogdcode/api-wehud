@@ -8,7 +8,7 @@ let games = app => {
     let Game = app.models.game
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = games => {
             let followedGames = []
             games.forEach(game => {
@@ -19,7 +19,7 @@ let games = app => {
                 })
             })
             
-            res.status(200).json(games)
+            return res.status(200).json(games)
         }
         
         let userId = req.params.userId

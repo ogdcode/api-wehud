@@ -8,8 +8,8 @@ let list = app => {
     let Planning = app.models.planning
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = plannings => res.status(200).json(plannings)
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
+        const RESPONSE = plannings => { return res.status(200).json(plannings) }
         
         let userId = req.session.user._id
         

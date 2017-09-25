@@ -5,8 +5,8 @@ let update = app => {
     let Page = app.models.page
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = () => res.status(204).send()
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
+        const RESPONSE = () => { return res.status(204).send() }
         
         let body = req.body
         let pageId = req.params.pageId

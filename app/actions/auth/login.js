@@ -6,23 +6,21 @@ let login = app => {
     let User = app.models.user
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = foundUser => {
             if (!foundUser)
-                res.status(404).json({ error: errs.ERR_NOTFOUND })
-            else {
-                if (foundUser.password !== options.password)
-                    res.status(403).json({ error: errs.ERR_INVALIDCREDS })
-                else {
-                    foundUser.connected = true
-                    foundUser.save()
-                    
-                    let token = app.modules.jwt.generateToken(app, foundUser._id)
-                    foundUser.token = token
-                    
-                    res.status(200).json({ _id: foundUser._id, token: token })
-                }
-            }
+                return res.status(404).json({ error: errs.ERR_NOTFOUND })
+            
+            if (foundUser.password !== options.password)
+                return res.status(403).json({ error: errs.ERR_INVALIDCREDS })
+            
+            foundUser.connected = true
+            foundUser.save()
+
+            let token = app.modules.jwt.generateToken(app, foundUser._id)
+            foundUser.token = token
+
+            return res.status(200).json({ _id: foundUser._id, token: token })
         }
         
         let body = req.body
@@ -31,10 +29,8 @@ let login = app => {
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
         let options = {}
-        if (body.usernameOrEmail.indexOf('@') !== -1) 
-            options.email = body.usernameOrEmail
-        else 
-            options.username = body.usernameOrEmail
+        if (body.usernameOrEmail.indexOf('@') !== -1) options.email = body.usernameOrEmail
+        else options.username = body.usernameOrEmail
         
         options.password = app.modules.encryption.encrypt(app, body.password)
         

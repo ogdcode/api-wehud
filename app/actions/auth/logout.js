@@ -12,9 +12,9 @@ let logout = app => {
         currentUser.token = null
         
         if (!req.session)
-            res.status(204).send()
-        else
-            res.status(500).json({ error: errs.ERR_SERVER })
+            return res.status(204).send()
+        
+        return res.status(500).json({ error: errs.ERR_SERVER })
     }
     
     return task

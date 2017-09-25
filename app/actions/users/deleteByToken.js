@@ -9,7 +9,7 @@ let del = app => {
     let Planning = app.models.planning
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         
         let userId = req.session.user._id
         
@@ -109,7 +109,7 @@ let del = app => {
                 currentUser.remove().catch(EXCEPTION)
             })
             
-            res.status(204).send()
+            return res.status(204).send()
             
         }).catch(EXCEPTION)
     }

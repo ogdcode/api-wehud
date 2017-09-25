@@ -7,7 +7,7 @@ let del = app => {
     let User = app.models.user
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = planning => {
             let query = Event.find({ planning: planning.title })
             let promise = query.exec()
@@ -23,14 +23,17 @@ let del = app => {
                 
                 planning.remove()
                 
-                res.status(204).send()
+                return res.status(204).send()
             })
             
             promise2.catch(EXCEPTION).done(creator => {
-                if (creator.score > 0 && creator.score < 50) creator.score -= 1
-                if (creator.score >= 50 && creator.score < 200) creator.score -= 2
-                if (creator.score >= 200 && creator.score < 500) creator.score -= 3
-                else creator.score -= 5
+                let entity = app.config.entity
+                let updated = app.modules.utils.updateScore(creator.score, 
+                                                            entity.thresholds.plannings,
+                                                            entity.actions.plannings[0],
+                                                            [entity.name.plannings],
+                                                            entity.points.plannings, 1)
+                creator.score = updated.score
                 creator.save()
             })
         }

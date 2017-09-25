@@ -6,16 +6,23 @@ let like = app => {
     let User = app.models.user
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = post => {
             post.likes.pull(userId)
             post.save()
             let query = User.findById(userId)
                 let promise = query.exec()
                 promise.catch(EXCEPTION).done(user => {
-                    if (user.score > 0) user.score -= 1
+                    let entity = app.config.entity
+                    let updated = app.modules.utils.updateScore(user.score, 
+                                                    entity.thresholds.posts, 
+                                                    entity.actions.posts[0], 
+                                                    [entity.name.posts], 
+                                                    entity.points.posts[0], 1)
+                    user.score = updated.score
                     user.save()
-                    res.status(204).send()
+                    
+                    return res.status(204).send()
                 })
         }
         

@@ -19,7 +19,7 @@ let bind = app => {
                                                             entity.thresholds.events,
                                                             entity.actions.events[1],
                                                             [entity.name.events],
-                                                            entity.points.events[1])
+                                                            entity.points.events[1], 0)
                 
                 creator.score = updated.score.total
                 creator.save()

@@ -8,8 +8,8 @@ let list = app => {
     let Event = app.models.event
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = events => res.status(200).json(events)
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
+        const RESPONSE = events => { return res.status(200).json(events) }
         
         let userId = req.params.userId
         

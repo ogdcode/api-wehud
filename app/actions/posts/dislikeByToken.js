@@ -5,15 +5,21 @@ let like = app => {
     let Post = app.models.post
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = post => {
             post.likes.pull(userId)
             post.save()
             
-            if (currentUser.score > 0) currentUser.score -= 1
+            let entity = app.config.entity
+            let updated = app.modules.utils.updateScore(currentUser.score, 
+                                            entity.thresholds.posts, 
+                                            entity.actions.posts[0], 
+                                            [entity.name.posts], 
+                                            entity.points.posts[0], 1)
+            currentUser.score = updated.score
             currentUser.save()
             
-            res.status(204).send()
+            return res.status(204).send()
         }
         
         let currentUser = req.session.user

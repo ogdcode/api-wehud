@@ -6,17 +6,15 @@ let action = app => {
     let modules = app.modules
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         
         let body = req.body
         if (!body || !body.usernameOrEmail)
             return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
         
         let options = {}
-        if (body.usernameOrEmail.indexOf('@') !== -1) 
-            options.email = body.usernameOrEmail
-        else 
-            options.username = body.usernameOrEmail
+        if (body.usernameOrEmail.indexOf('@') !== -1) options.email = body.usernameOrEmail
+        else options.username = body.usernameOrEmail
         
         let query = User.findOne(options)
         let promise = query.exec()

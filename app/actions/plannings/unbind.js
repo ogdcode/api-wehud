@@ -5,7 +5,7 @@ let unbind = app => {
     let Planning = app.models.planning
     
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         
         let planningId = req.params.planningId
         
@@ -17,18 +17,18 @@ let unbind = app => {
         
         promise.then(planning => {
             if (!planning)
-                res.status(404).json({ error: errs.ERR_NOTFOUND })
-            else if (planning.events.length > 0) {
+                return res.status(404).json({ error: errs.ERR_NOTFOUND })
+            
+            if (planning.events.length > 0) {
                 planning.events.forEach(event => {
                     planning.events.pull(event)
                     event.remove()
                 })
                 
                 planning.save()
-                
-                res.status(204).send()
-            } else
-                res.status(204).send()
+            }
+            
+            return res.status(204).send()
         }).catch(EXCEPTION)
     }
     

@@ -6,8 +6,8 @@ let create = app => {
     let User = app.models.user
         
     let task = (req, res) => {
-        const EXCEPTION = () => res.status(500).json({ error: errs.ERR_SERVER })
-        const RESPONSE = user => res.status(201).json({ _id: user._id })
+        const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
+        const RESPONSE = user => { return res.status(201).json({ _id: user._id }) }
         
         let body = req.body;
 
