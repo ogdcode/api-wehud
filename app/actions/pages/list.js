@@ -50,7 +50,7 @@ let list = app => {
                                 page.posts = app.modules.utils.flatten(value)
                                 found = true
                                 pageList.push(page)
-                            }
+                            } else pageList.push(page)
                         })
                     })
 

@@ -15,19 +15,25 @@ let pages = app => {
             pages.forEach(page => {
                 if (page.owner._id.equals(userId)) {
                     results.push(page)
+                    
+                    let promises = []
                     if (page.users.length > 0) {
-                        let promises = []
                         page.users.forEach(userId => {
                             let query = Post.find({ 'publisher._id': userId })
                             let promise = query.exec()
                             promises.push(promise)
                         })
+                    }
+                    
+                    if (page.games.length > 0) {
                         page.games.forEach(gameId => {
                             let query = Post.find({ 'game._id': gameId })
                             let promise = query.exec()
                             promises.push(promise)
                         })
-
+                    }
+                    
+                    if (promises.length > 0) {
                         let prom = Q.all(promises)
                         proms.push(prom)
                     }
@@ -40,11 +46,13 @@ let pages = app => {
                     values.forEach(value => {
                         let found = false
                         pages.forEach(page => {
-                            let hasUsersOrGames = page.users.length > 0 || page.games.length > 0
-                            if (hasUsersOrGames && page.posts.length === 0 && !found) {
-                                page.posts = app.modules.utils.flatten(value)
-                                found = true
-                                pageList.push(page)
+                            if (page.owner._id.equals(userId)) {
+                                let hasUsersOrGames = page.users.length > 0 || page.games.length > 0
+                                if (hasUsersOrGames && page.posts.length === 0 && !found) {
+                                    page.posts = app.modules.utils.flatten(value)
+                                    found = true
+                                    pageList.push(page)
+                                } else pageList.push(page)
                             }
                         })
                     })

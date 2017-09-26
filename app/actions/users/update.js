@@ -25,8 +25,8 @@ let update = app => {
         let promise = query.exec()
         
         promise.then(() => {
-            if (body.username || body.email) {
-                
+            if (body.username || body.email || body.avatar) {
+                                
                 let query = User.find()
                 let promise = query.exec()
                                 
@@ -75,6 +75,7 @@ let update = app => {
                         if (post.publisher._id.equals(userId)) {
                             let newPublisher = {
                                 _id: userId,
+                                avatar: body.avatar,
                                 username: body.username
                             }
                             post.publisher = newPublisher

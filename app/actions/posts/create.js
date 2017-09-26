@@ -33,6 +33,7 @@ let create = app => {
                 
         body.publisher = {
             _id: currentUser._id,
+            avatar: currentUser.avatar,
             username: currentUser.username
         }
         
@@ -65,18 +66,22 @@ let create = app => {
                 results.forEach(result => {
                     
                     // If result has a username, then it is a User object.
-                    if (result.username)
+                    if (result.username) {
                         body.receiver = {
                             _id: result._id,
                             username: result.username
                         }
+                        body.message = true
+                    }
                     
                     // If result has a name, then it is a Game object.
-                    if (result.name)
+                    if (result.name) {
                         body.game = {
                             _id: result._id,
                             name: result.name
-                        }     
+                        }
+                        body.opinion = true
+                    }
                 })
                                 
                 let post = new Post(body)

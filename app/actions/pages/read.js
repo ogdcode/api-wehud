@@ -12,7 +12,7 @@ let read = app => {
         const RESPONSE = page => {
             if (!page)
                 return res.status(404).json({ error: errs.ERR_NOTFOUND })
-            
+                        
             let promises = []
             if (page.users.length > 0) {
                 page.users.forEach(userId => {

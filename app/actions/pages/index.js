@@ -8,7 +8,7 @@ let actions = app => {
         delete: require('./delete')(app),
         
         list: require('./list')(app),
-        posts: require('./posts')(app)
+        posts: require('./posts')(app),
     }
     
     return paths

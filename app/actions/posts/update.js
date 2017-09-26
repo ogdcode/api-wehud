@@ -8,11 +8,11 @@ let update = app => {
         const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = () => { return res.status(204).send() }
         
-        if (body.publisher || body.receiver)
-            return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
-        
         let body = req.body
         let postId = req.params.postId
+        
+        if (body.publisher || body.receiver)
+            return res.status(403).json({ error: errs.ERR_UNAUTHORIZED })
         
         if (!body || !postId)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })

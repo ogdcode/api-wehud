@@ -19,7 +19,8 @@ let userModel = app => {
             required: true
         },
         avatar: {
-            type: String
+            type: String,
+            default: 'https://s3.ca-central-1.amazonaws.com/g-zone/images/profile01.png'
         },
         connected: {
             type: Boolean,
