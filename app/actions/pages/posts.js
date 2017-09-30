@@ -37,8 +37,9 @@ let posts = app => {
             
             if (promises.length > 0) {
                 Q.all(promises).catch(EXCEPTION).done(values => {
+                    values = app.modules.utils.flatten(values)
                     values.forEach(value => {
-                        page.posts = app.modules.utils.flatten(value)
+                        page.posts.push(value)
                     })
 
                     return res.status(200).json({ 
@@ -46,7 +47,7 @@ let posts = app => {
                         posts: page.posts 
                     })
                 })
-            } else return res.status(204).send()
+            } else return res.status(200).json({ _id: page._id, posts: [] })
         })
     }
     

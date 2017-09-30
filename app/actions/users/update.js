@@ -38,7 +38,8 @@ let update = app => {
                                 let newUser = {
                                     _id: u._id,
                                     username: body.username,
-                                    email: body.email
+                                    email: body.email,
+                                    avatar: body.avatar
                                 }
                                 user.followers.push(newUser)
                                 user.save()

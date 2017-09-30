@@ -42,18 +42,28 @@ let list = app => {
             if (proms.length > 0) {
                 Q.all(proms).then(values => {
                     let pageList = []
+                    values = app.modules.utils.flatten(values)
                     values.forEach(value => {
-                        let found = false
                         pages.forEach(page => {
-                            let hasUsersOrGames = page.users.length > 0 || page.games.length > 0
-                            if (hasUsersOrGames && page.posts.length === 0 && !found) {
-                                page.posts = app.modules.utils.flatten(value)
-                                found = true
-                                pageList.push(page)
-                            } else pageList.push(page)
+                            if (page.users.length > 0) {
+                                page.users.forEach(userId => {
+                                    if (userId.equals(value.publisher._id))
+                                        page.posts.push(value)
+                                })
+                            }
+
+                            if (page.games.length > 0) {
+                                page.games.forEach(gameId => {
+                                    if (value.opinion)
+                                        if (gameId.equals(value.game._id))
+                                            page.posts.push(value)
+                                })
+                            }
+
+                            if (!pageList.includes(page)) pageList.push(page)
                         })
                     })
-
+                    
                     return res.status(200).json(pageList)
                 })
             } else return res.status(200).json(pages)

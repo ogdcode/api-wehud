@@ -25,7 +25,7 @@ let routes = app => {
     router.get('/followers/plannings/:userId', app.actions.users.followersPlannings)
     router.get('/followers/events/:userId', app.actions.users.followersEvents)
     
-    router.get('/:userId', app.middlewares.isAuthenticated, app.actions.users.readByToken)
+    router.get('/user/:userId', app.middlewares.isAuthenticated, app.actions.users.readByToken)
     router.put('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.updateByToken)
     router.delete('/', bodyParser, app.middlewares.isAuthenticated, app.actions.users.deleteByToken)
     router.get('/posts', app.middlewares.isAuthenticated, app.actions.users.postsByToken)

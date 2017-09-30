@@ -34,7 +34,8 @@ let unfollow = app => {
             let oldFollower = {
                 _id: currentUser._id,
                 username: currentUser.username,
-                email: currentUser.email
+                email: currentUser.email,
+                avatar: currentUser.avatar
             }
 
             user.followers.pull(oldFollower)
