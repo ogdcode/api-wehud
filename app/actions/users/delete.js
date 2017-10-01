@@ -28,7 +28,7 @@ let del = app => {
                 users.forEach(user => {
                     let followers = user.followers
                     followers.forEach(u => {
-                        if (u._id.equals(userId)) {
+                        if (u._id == userId) {
                             user.followers.pull(u)
                             user.save()
                         }
@@ -42,7 +42,7 @@ let del = app => {
             promise2.then(games => {
                 games.forEach(game => {
                     game.followers.forEach(user => {
-                        if (user._id.equals(userId)) {
+                        if (user._id == userId) {
                             game.followers.pull(user)
                             game.save()
                         }
@@ -55,7 +55,7 @@ let del = app => {
 
             promise3.then(posts => {
                 posts.forEach(post => {
-                    if (post.publisher._id.equals(userId))
+                    if (post.publisher._id == userId)
                         post.remove().catch(EXCEPTION)
                     else {
                         if (post.receiver && post.receiver._id.equals(userId)) 
@@ -71,7 +71,7 @@ let del = app => {
 
             promise4.then(pages => {
                 pages.forEach(page => {
-                    if (page.owner._id.equals(userId))
+                    if (page.owner._id == userId)
                         page.remove().catch(EXCEPTION)
                     else {
                         if (page.users) {
@@ -91,7 +91,7 @@ let del = app => {
 
             promise5.then(plannings => {
                 plannings.forEach(planning => {
-                    if (planning.creator._id.equals(userId))
+                    if (planning.creator._id == userId)
                         planning.remove().catch(EXCEPTION)
                 })
 
@@ -103,7 +103,7 @@ let del = app => {
             
             promise6.then(events => {
                 events.forEach(event => {
-                    if (event.creator._id.equals(userId))
+                    if (event.creator._id == userId)
                         event.remove().catch(EXCEPTION)
                 })
 

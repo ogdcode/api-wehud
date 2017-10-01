@@ -9,7 +9,7 @@ let plannings = app => {
         const RESPONSE = plannings => {
             let results = []
             plannings.forEach(planning => {
-                if (planning.creator._id.equals(userId))
+                if (planning.creator._id == userId)
                     results.push(planning)
             })
             

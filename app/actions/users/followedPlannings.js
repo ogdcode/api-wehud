@@ -23,7 +23,7 @@ let list = app => {
             let promises = []
             users.forEach(user => {
                 user.followers.forEach(u => {
-                    if (u._id.equals(userId)) {
+                    if (u._id == userId) {
                         let query = Planning.find({ 'creator._id': user._id })
                         let promise = query.exec()
                         promises.push(promise)

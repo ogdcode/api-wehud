@@ -18,8 +18,9 @@ let followed = app => {
         let followedUsers = []
         promise.catch(EXCEPTION).done(users => {
             users.forEach(user => {
-                user.followers.forEach(u => {
-                    if (u._id.equals(userId)) {
+                let followers = user.followers
+                followers.forEach(u => {
+                    if (u._id == userId) {
                         let followedUser = {
                             _id: u._id,
                             username: u.username,

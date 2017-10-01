@@ -9,7 +9,7 @@ let posts = app => {
         const RESPONSE = posts => {
             let results = []
             posts.forEach(post => {
-                if (post.publisher._id.equals(userId))
+                if (post.publisher._id == userId)
                     results.push(post)
             })
             

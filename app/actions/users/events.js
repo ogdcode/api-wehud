@@ -9,7 +9,7 @@ let events = app => {
         const RESPONSE = events => {
             let results = []
             events.forEach(event => {
-                if (event.creator._id.equals(userId))
+                if (event.creator._id == userId)
                     results.push(event)
             })
             

@@ -13,7 +13,7 @@ let pages = app => {
             let results = []
             let proms = []
             pages.forEach(page => {
-                if (page.owner._id.equals(userId)) {
+                if (page.owner._id == userId) {
                     results.push(page)
 
                     let promises = []

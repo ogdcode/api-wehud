@@ -13,13 +13,13 @@ let games = app => {
             let followedGames = []
             games.forEach(game => {
                 game.followers.forEach(user => {
-                    if (user._id.equals(userId)) {
+                    if (user._id == userId) {
                         followedGames.push(game)
                     }
                 })
             })
             
-            return res.status(200).json(games)
+            return res.status(200).json(followedGames)
         }
         
         let userId = req.params.userId

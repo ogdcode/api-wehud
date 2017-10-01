@@ -19,7 +19,7 @@ let games = app => {
                 })
             })
             
-            return res.status(200).json(games)
+            return res.status(200).json(followedGames)
         }
         
         let userId = req.session.user._id
