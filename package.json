@@ -4,7 +4,7 @@
   "description": "This is the API of the WeHud project.",
   "main": "index.js",
   "scripts": {
-    "test": "node app"
+    "start": "node app"
   },
   "repository": {
     "type": "git",
