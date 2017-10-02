@@ -9,10 +9,7 @@ let unbind = app => {
     let task = (req, res) => {
         const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         const RESPONSE = planning => { 
-            return res.status(200).send({ 
-                planning: planning.title, 
-                events: planning.events 
-            }) 
+            
         }
         
         let eventId = req.params.eventId
@@ -38,15 +35,14 @@ let unbind = app => {
                 event.planning = ""
                 event.save()
                 
-                planning.events.pull(event)
-                let promise = planning.save()
+                planning.events.forEach(e => {
+                    if (e._id.equals(eventId)) planning.events.pull(e)
+                })
+                                
+                let query = User.findById(event.creator._id)
+                let promise = query.exec()
                 
-                promise.catch(EXCEPTION).done(RESPONSE)
-                
-                let query2 = User.findById(event.creator._id)
-                let promise2 = query2.exec()
-                
-                promise2.catch(EXCEPTION).done(creator => {
+                promise.catch(EXCEPTION).done(creator => {
                     let entity = app.config.entity
                     let updated = app.modules.utils.updateScore(creator.score, 
                                                                 entity.thresholds.events,
@@ -55,6 +51,14 @@ let unbind = app => {
                                                                 entity.points.events[1], 1)
                     creator.score = updated.score
                     creator.save()
+                    
+                    let promise = planning.save()
+                    promise.catch(EXCEPTION).done(() => {
+                        return res.status(200).send({ 
+                            planning: planning.title,
+                            events: planning.events 
+                        }) 
+                    })
                 })
             })
         })
