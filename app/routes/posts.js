@@ -16,8 +16,8 @@ let routes = app => {
     
     router.get('/all/messages', app.middlewares.isAuthenticated, app.actions.posts.messagesByToken)
     
-    router.patch('/like/:userId/:postId', app.middlewares.isAuthenticated, app.actions.posts.like)
-    router.patch('/dislike/:userId/:postId', app.middlewares.isAuthenticated, app.actions.posts.dislike)
+    router.patch('/like/:userId/:postId', app.actions.posts.like)
+    router.patch('/dislike/:userId/:postId', app.actions.posts.dislike)
     router.patch('/like/:postId', app.middlewares.isAuthenticated, app.actions.posts.likeByToken)
     router.patch('/dislike/:postId', app.middlewares.isAuthenticated, app.actions.posts.dislikeByToken)
     
