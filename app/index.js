@@ -19,5 +19,5 @@ let app = EXPRESS();
     let db = config.db
 
     console.log('Connecting to ' + db.name + ' as ' + db.user)
-    app.listen(config.port, '0.0.0.0')
+    app.listen(process.env.PORT || config.port, '0.0.0.0')
 }());
