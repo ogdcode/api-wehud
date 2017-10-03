@@ -19,7 +19,7 @@ let pages = app => {
                     let promises = []
                     if (page.users.length > 0) {
                         page.users.forEach(userId => {
-                            let query = Post.find({ 'publisher._id': userId })
+                            let query = Post.find()
                             let promise = query.exec()
                             promises.push(promise)
                         })
@@ -27,7 +27,7 @@ let pages = app => {
                     
                     if (page.games.length > 0) {
                         page.games.forEach(gameId => {
-                            let query = Post.find({ 'game._id': gameId })
+                            let query = Post.find()
                             let promise = query.exec()
                             promises.push(promise)
                         })
