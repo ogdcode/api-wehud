@@ -36,7 +36,8 @@ let follow = app => {
                 _id: currentUser._id,
                 username: currentUser.username,
                 email: currentUser.email,
-                avatar: currentUser.avatar
+                avatar: currentUser.avatar,
+                connected: currentUser.connected
             }
 
             if (user.followers.indexOf(newFollower) < 0) user.followers.push(newFollower)

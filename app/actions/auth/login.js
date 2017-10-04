@@ -19,6 +19,30 @@ let login = app => {
 
             let token = app.modules.jwt.generateToken(app, foundUser._id)
             foundUser.token = token
+            
+            let f = {
+                _id: foundUser._id,
+                username: foundUser.username,
+                email: foundUser.email,
+                avatar: foundUser.avatar,
+                connected: true
+            }
+            
+            let query = User.find()
+            let promise = query.exec()
+            promise.catch(EXCEPTION).done(users => {
+                let uId = foundUser._id.toString()
+                users.forEach(user => {
+                    user.followers.forEach(follower => {
+                        let fId = follower._id.toString()
+                        if (fId === uId) {
+                            user.followers.pull(follower)
+                            if (user.followers.indexOf(f) < 0) user.followers.push(f)
+                        }
+                        user.save()
+                    })
+                })
+            })
 
             return res.status(200).json({ _id: foundUser._id, token: token })
         }
