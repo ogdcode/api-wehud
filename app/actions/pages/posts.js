@@ -18,10 +18,12 @@ let posts = app => {
         let promise = query.exec()
         
         promise.catch(EXCEPTION).done(page => {
+            page.posts = []
             let promises = []
             if (page.users.length > 0) {
                 page.users.forEach(userId => {
-                    let query = Post.find({ 'publisher._id': userId })
+                    let uId = userId.toString()
+                    let query = Post.find({ 'publisher._id': uId })
                     let promise = query.exec()
                     promises.push(promise)
                 })
@@ -29,7 +31,8 @@ let posts = app => {
             
             if (page.games.length > 0) {
                 page.games.forEach(gameId => {
-                    let query = Post.find({ 'game._id': gameId })
+                    let gId = gameId.toString()
+                    let query = Post.find({ 'game._id': gId })
                     let promise = query.exec()
                     promises.push(promise)
                 })

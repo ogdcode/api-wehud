@@ -13,13 +13,16 @@ let pages = app => {
             let results = []
             let proms = []
             pages.forEach(page => {
-                if (page.owner._id == userId) {
+                page.posts = []
+                let ownerId = page.owner._id.toString()
+                if (ownerId === userId) {
                     results.push(page)
 
                     let promises = []
                     if (page.users.length > 0) {
                         page.users.forEach(userId => {
-                            let query = Post.find()
+                            let uId = userId.toString()
+                            let query = Post.find({ 'publisher._id': uId })
                             let promise = query.exec()
                             promises.push(promise)
                         })
@@ -27,7 +30,8 @@ let pages = app => {
                     
                     if (page.games.length > 0) {
                         page.games.forEach(gameId => {
-                            let query = Post.find()
+                            let gId = gameId.toString()
+                            let query = Post.find({ 'game._id': gId })
                             let promise = query.exec()
                             promises.push(promise)
                         })
@@ -48,19 +52,22 @@ let pages = app => {
                         results.forEach(page => {
                             if (page.users.length > 0) {
                                 page.users.forEach(userId => {
-                                    if (userId.equals(value.publisher._id))
+                                    let uId = userId.toString()
+                                    if (uId === value.publisher._id) {
                                         page.posts.push(value)
+                                    }
                                 })
                             }
 
                             if (page.games.length > 0) {
                                 page.games.forEach(gameId => {
+                                    let gId = gameId.toString()
                                     if (value.opinion)
-                                        if (gameId.equals(value.game._id))
+                                        if (gId === value.game._id)
                                             page.posts.push(value)
                                 })
                             }
-
+                                                        
                             if (!pageList.includes(page)) pageList.push(page)
                         })
                     })

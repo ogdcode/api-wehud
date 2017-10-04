@@ -11,15 +11,17 @@ let list = app => {
         const EXCEPTION = () => { return res.status(500).json({ error: errs.ERR_SERVER }) }
         
         let query = Page.find()
-        let promise = query.exec()
-        
+        let promise = query.exec()        
+
         promise.then(pages => {
             let proms = []
             pages.forEach(page => {
+                page.posts = []
                 let promises = []
                 if (page.users.length > 0) {
                     page.users.forEach(userId => {
-                        let query = Post.find()
+                        let uId = userId.toString()
+                        let query = Post.find({ 'publisher._id': uId })
                         let promise = query.exec()
                         promises.push(promise)
                     })
@@ -27,7 +29,8 @@ let list = app => {
                 
                 if (page.games.length > 0) {
                     page.games.forEach(gameId => {
-                        let query = Post.find()
+                        let gId = gameId.toString()
+                        let query = Post.find({ 'game._id': gId })
                         let promise = query.exec()
                         promises.push(promise)
                     })
@@ -47,15 +50,17 @@ let list = app => {
                         pages.forEach(page => {
                             if (page.users.length > 0) {
                                 page.users.forEach(userId => {
-                                    if (userId.equals(value.publisher._id))
+                                    let uId = userId.toString()
+                                    if (uId === value.publisher._id)
                                         page.posts.push(value)
                                 })
                             }
 
                             if (page.games.length > 0) {
                                 page.games.forEach(gameId => {
+                                    let gId = gameId.toString()
                                     if (value.opinion)
-                                        if (gameId.equals(value.game._id))
+                                        if (gId === value.game._id)
                                             page.posts.push(value)
                                 })
                             }

@@ -16,7 +16,8 @@ let read = app => {
             let promises = []
             if (page.users.length > 0) {
                 page.users.forEach(userId => {
-                    let query = Post.find({ 'publisher._id': userId })
+                    let uId = userId.toString()
+                    let query = Post.find({ 'publisher._id': uId })
                     let promise = query.exec()
                     promises.push(promise)
                 })
@@ -24,7 +25,8 @@ let read = app => {
             
             if (page.games.length > 0) {
                 page.games.forEach(gameId => {
-                    let query = Post.find({ 'game._id': gameId })
+                    let gId = gameId.toString()
+                    let query = Post.find({ 'game._id': gId })
                     let promise = query.exec()
                     promises.push(promise)
                 })
@@ -41,7 +43,7 @@ let read = app => {
         }
         
         let pageId = req.params.pageId
-        
+                
         if (!pageId)
             return res.status(400).json({ error: errs.ERR_BADREQUEST })
         
