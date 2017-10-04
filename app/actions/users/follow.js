@@ -39,8 +39,8 @@ let follow = app => {
                 avatar: currentUser.avatar
             }
 
-            user.followers.push(newFollower)
-            page.users.push(userId)
+            if (user.followers.indexOf(newFollower) < 0) user.followers.push(newFollower)
+            if (page.users.indexOf(userId) < 0) page.users.push(userId)
             
             let entity = app.config.entity
             

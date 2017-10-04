@@ -38,8 +38,8 @@ let follow = app => {
                 email: currentUser.email
             }
 
-            game.followers.push(newFollower)
-            page.games.push(gameId)
+            if (game.followers.indexOf(newFollower) < 0) game.followers.push(newFollower)
+            if (page.users.indexOf(gameId) < 0) page.games.push(gameId)
             
             let entity = app.config.entity
             
